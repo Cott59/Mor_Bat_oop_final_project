@@ -13,14 +13,16 @@ class Menu
 {
 public:
 	Menu();
-		
-
+	void Set_Parc_Pl1(int a)  { Parc_Pl1 = a; }
+	void Set_Parc_Pl2(int a)  { Parc_Pl2 = a; }
+	void Set_Attac_Pl1(int a) { Attac_Pl1 = a;}
+	void Set_Attac_Pl2(int a) { Attac_Pl2 = a;}
 
 private:
-	bool PRK1;  // = false;// расстановка кораблей:
-	bool PRK2;  // = false;// true - автоматическая, false - ручная
-	bool InCoord1;  // = true; //ввод координат удара
-	bool InCoord2;  // = false; //true - автоматическая, false - ручной
+	int Parc_Pl1;  // = false;// расстановка кораблей:
+	int Parc_Pl2;  // = false;// true 1 - автоматическая, false 0 - ручная
+	int Attac_Pl1;  // = true; //ввод координат для атаки
+	int Attac_Pl2;  // = false; //true - автоматическая, false - ручной
 };
 
 class Grafic_Menu 
@@ -35,8 +37,6 @@ private:
 
 };
 
-
-
 class Player
 {
 public:
@@ -44,21 +44,22 @@ public:
 	Player(int X, int Y);
 	~Player();
 	COORD Get_Base_Point() { return Base_Point; };
+	void Set_Base_Point(int, int);
 
 private:
 	COORD Base_Point{ 0,0 };
-	std::vector<Ship>Ship_Coords;
+	std::vector<Ship>Ship_Player;
 
 };
 
-
-
-
-
-class Logic_Menu
+class Logic_Menu:public Menu, public Grafic_Menu
 {
 public:
-	
+	Logic_Menu();
+
+	static void Set_Data_Players();
+
+
 private:
 
 };

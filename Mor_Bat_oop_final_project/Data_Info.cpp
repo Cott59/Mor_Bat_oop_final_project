@@ -15,10 +15,10 @@ extern COORD CursorPosition;
 }
 
 Menu::Menu(){
-	PRK1 = false;
-	PRK2 = true;
-	InCoord1 = false;
-	InCoord2 = true;
+	/*Parc_Pl1 = 0;
+	Parc_Pl2 = true;
+	Attac_Pl1 = false;
+	Attac_Pl2 = true;*/
 
 }
 
@@ -33,7 +33,7 @@ void Grafic_Menu::Show_Menu_PL1() {
 	DataInput::gotoxy(40, 10); std::cout << "1. Автоматическое";
 	DataInput::gotoxy(40, 11); std::cout << "2. Ручное";
 	DataInput::gotoxy(40, 13);  std::cout << "Select option: ";
-	char ch = _getche();
+	
 }
 
 void Grafic_Menu::Show_Menu_PL2() {
@@ -45,7 +45,7 @@ void Grafic_Menu::Show_Menu_PL2() {
 	DataInput::gotoxy(40, 10); std::cout << "1. Автоматическое";
 	DataInput::gotoxy(40, 11); std::cout << "2. Ручное";
 	DataInput::gotoxy(40, 13);  std::cout << "Select option: ";
-	char ch = _getche();
+	
 }
 
 void Grafic_Menu::Set_Player2() {
@@ -57,7 +57,44 @@ void Grafic_Menu::Set_Player2() {
 	DataInput::gotoxy(40, 10); std::cout << "1. Компьютер";
 	DataInput::gotoxy(40, 11); std::cout << "2. Игрок";
 	DataInput::gotoxy(40, 13);  std::cout << "Select option: ";
-	char ch = _getche();
+	
+}
+
+Player::Player()
+{
+}
+
+Player::Player(int X, int Y)
+{
+	Base_Point.X = X; Base_Point.Y = Y;
+}
+
+Player::~Player()
+{
+}
+
+void Player::Set_Base_Point(int X, int Y) {
+	Base_Point.X = X;
+	Base_Point.Y = Y;
 }
 
 
+int Set_Parametr() {
+	int tmp;
+	std::cin >> tmp;
+	return tmp;
+}
+
+
+void  Logic_Menu::Set_Data_Players() {
+
+	Grafic_Menu::Show_Menu_PL1();
+	/*Set_Parc_Pl1(0);
+	Set_Parc_Pl1(Set_Parametr());*/
+	Menu menu;
+	menu.Set_Parc_Pl1(0);
+	menu.Set_Attac_Pl1(Set_Parametr());
+
+
+
+}

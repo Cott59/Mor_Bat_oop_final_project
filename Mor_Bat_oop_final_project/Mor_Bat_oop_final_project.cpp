@@ -22,9 +22,7 @@ int main()
 	SetConsoleScreenBufferSize(console, maxWindow);
 	SetConsoleWindowInfo(console, true, &srctWindow);
     
-	Grafic_Menu::Show_Menu_PL1();
-	Grafic_Menu::Set_Player2();
-	Grafic_Menu::Show_Menu_PL2();
+	Logic_Menu::Set_Data_Players();
 
 
 	_getch();
