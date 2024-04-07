@@ -2,8 +2,8 @@
 #include <iostream>
 #include<Windows.h>
 #include"Data_Info.h"
-
-
+#include"Gameplay.h"
+#include"Ship_Placement.h"
 
 #define SCREEN_WIDTH 100
 #define SCREEN_HEIGHT 30
@@ -23,6 +23,10 @@ int main()
 	SetConsoleWindowInfo(console, true, &srctWindow);
     
 	Logic_Menu::Set_Data_Players();
+
+
+
+	//Grafic_Gameplay::ShowBorder();
 
 
 	_getch();

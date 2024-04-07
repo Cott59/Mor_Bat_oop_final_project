@@ -128,11 +128,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Data_Info.cpp" />
+    <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="Mor_Bat_oop_final_project.cpp" />
+    <ClCompile Include="Ships.cpp" />
+    <ClCompile Include="Ship_Placement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data_Info.h" />
+    <ClInclude Include="Gameplay.h" />
     <ClInclude Include="Ships.h" />
+    <ClInclude Include="Ship_Placement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

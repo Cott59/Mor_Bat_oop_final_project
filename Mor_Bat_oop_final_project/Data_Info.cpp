@@ -60,9 +60,7 @@ void Grafic_Menu::Set_Player2() {
 	
 }
 
-Player::Player()
-{
-}
+
 
 Player::Player(bool parc, bool attac)
 {

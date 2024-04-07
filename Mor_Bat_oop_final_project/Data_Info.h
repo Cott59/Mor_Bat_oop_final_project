@@ -45,7 +45,7 @@ private:
 class Player
 {
 public:
-	Player();
+	
 	Player(bool parc, bool attac);
 	~Player();
 	COORD Get_Base_Point() { return Base_Point; };
