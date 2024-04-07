@@ -24,9 +24,25 @@ int main()
     
 	Logic_Menu::Set_Data_Players();
 
+	Grafic_Ship_Placement GrShipPlas(39, 9);
+	GrShipPlas.Border_1();
+	GrShipPlas.Border_2();
+	GrShipPlas.Plean();
+	GrShipPlas.Hedder_Pl1();
+	GrShipPlas.Hedder_Pl2();
 
-
-	//Grafic_Gameplay::ShowBorder();
+	int a = 15;
+	int b = 49;
+	
+	Grafic_Gameplay::ShowBorder();
+	Grafic_Gameplay::ShowBorderPlayer(8, 7);
+	Grafic_Gameplay::ShowBorderPlayer(42, 7);
+	Grafic_Gameplay::ShowHedderPlayer1(a, 3);
+	Grafic_Gameplay::ShowHedderPlayer2(b, 3);
+	_getch();
+	std::swap(a, b);
+	Grafic_Gameplay::ShowHedderPlayer1(a, 3);
+	Grafic_Gameplay::ShowHedderPlayer2(b, 3);
 
 
 	_getch();

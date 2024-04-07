@@ -1,6 +1,7 @@
 #include <iostream>
 #include"Data_Info.h"
 #include"Ship_Placement.h"
+#include<conio.h>
 
 Grafic_Ship_Placement::Grafic_Ship_Placement(int x,int y)
 {
@@ -8,6 +9,7 @@ Grafic_Ship_Placement::Grafic_Ship_Placement(int x,int y)
 }
 
 void Grafic_Ship_Placement::Border_1() {
+	system("cls");
 	DataInput::gotoxy(this->Base_Point.X + 1, this->Base_Point.Y);
 	for (int i = 1; i < 11; i++)
 		std::cout << ' ' << i;
@@ -42,4 +44,19 @@ void Grafic_Ship_Placement::Plean() {
 				std::cout << " .";
 		}
 	}
+}
+
+void Grafic_Ship_Placement::Hedder_Pl1()
+{
+	DataInput::gotoxy(35, 5); std::cout << " --------------------------- ";
+	DataInput::gotoxy(35, 6);  std::cout << " |        Player 1         | ";
+	DataInput::gotoxy(35, 7);  std::cout << " --------------------------- ";
+	_getch();
+}
+void Grafic_Ship_Placement::Hedder_Pl2()
+{
+	DataInput::gotoxy(35, 5); std::cout << " --------------------------- ";
+	DataInput::gotoxy(35, 6);  std::cout << " |        Player 2         | ";
+	DataInput::gotoxy(35, 7);  std::cout << " --------------------------- ";
+	_getch();
 }
