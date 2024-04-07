@@ -13,6 +13,7 @@ void Grafic_Ship_Placement::Border_1() {
 		std::cout << ' ' << i;
 }
 
+
 void Grafic_Ship_Placement::Border_2()
 {
 	for (int j = 1; j < 11; j++) {
