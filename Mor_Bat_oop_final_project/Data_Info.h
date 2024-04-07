@@ -17,6 +17,11 @@ public:
 	void Set_Parc_Pl2(int a)  { Parc_Pl2 = a; }
 	void Set_Attac_Pl1(int a) { Attac_Pl1 = a;}
 	void Set_Attac_Pl2(int a) { Attac_Pl2 = a;}
+	bool Get_Parc_Pl1() { return Parc_Pl1; }
+	bool Get_Parc_Pl2() { return Parc_Pl2; }
+	bool Get_Attac_Pl1(){ return Attac_Pl1;}
+	bool Get_Attac_Pl2(){ return Attac_Pl2;}
+
 
 private:
 	int Parc_Pl1;  // = false;// расстановка кораблей:
@@ -41,7 +46,7 @@ class Player
 {
 public:
 	Player();
-	Player(int X, int Y);
+	Player(bool parc, bool attac);
 	~Player();
 	COORD Get_Base_Point() { return Base_Point; };
 	void Set_Base_Point(int, int);
@@ -49,10 +54,12 @@ public:
 private:
 	COORD Base_Point{ 0,0 };
 	std::vector<Ship>Ship_Player;
+	bool Parc;
+	bool Attac;
 
 };
 
-class Logic_Menu:public Menu, public Grafic_Menu
+class Logic_Menu
 {
 public:
 	Logic_Menu();

@@ -64,9 +64,9 @@ Player::Player()
 {
 }
 
-Player::Player(int X, int Y)
+Player::Player(bool parc, bool attac)
 {
-	Base_Point.X = X; Base_Point.Y = Y;
+	Parc = parc; Attac = attac;
 }
 
 Player::~Player()
@@ -94,6 +94,19 @@ void  Logic_Menu::Set_Data_Players() {
 	Menu menu;
 	menu.Set_Parc_Pl1(0);
 	menu.Set_Attac_Pl1(Set_Parametr());
+	Grafic_Menu::Set_Player2();
+	if (Set_Parametr() == 1) {
+		menu.Set_Parc_Pl2(1);
+		menu.Set_Attac_Pl2(1);
+	}
+	else {
+		Grafic_Menu::Show_Menu_PL2();
+		menu.Set_Parc_Pl2(0);
+		menu.Set_Attac_Pl2(Set_Parametr());
+	}
+
+	Player* PL1 = new Player(menu.Get_Parc_Pl1(), menu.Get_Attac_Pl1());
+	Player* PL2 = new Player(menu.Get_Parc_Pl2(), menu.Get_Attac_Pl2());
 
 
 
