@@ -1,9 +1,8 @@
 #include "Gameplay.h"
 #include <iostream>
 #include"Data_Info.h"
+#include"Includes.h"
 
-#define SCREEN_WIDTH 100
-#define SCREEN_HEIGHT 30
 
 void Border_1(int* point_1, int* point_2) {
 	

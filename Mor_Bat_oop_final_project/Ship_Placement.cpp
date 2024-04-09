@@ -2,6 +2,7 @@
 #include"Data_Info.h"
 #include"Ship_Placement.h"
 #include<conio.h>
+#include"Includes.h"
 
 Grafic_Ship_Placement::Grafic_Ship_Placement(int x,int y)
 {

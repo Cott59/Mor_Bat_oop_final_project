@@ -4,12 +4,18 @@
 #include"Data_Info.h"
 #include"Gameplay.h"
 #include"Ship_Placement.h"
-
-#define SCREEN_WIDTH 100
-#define SCREEN_HEIGHT 30
+#include"Includes.h"
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition = {};
+
+bool PARC_PL1_ = false;// расстановка кораблей:
+bool PARC_PL2_ = false;// true 1 - автоматическая, false 0 - ручная
+bool ATTAC_PL1_ = true; //ввод координат для атаки
+bool ATTAC_PL2_ = false; //true - автоматическая, false - ручной
+
+int X_;
+int Y_;
 
 
 int main()
@@ -21,8 +27,10 @@ int main()
 	SetConsoleWindowInfo(console, true, &minWindow);
 	SetConsoleScreenBufferSize(console, maxWindow);
 	SetConsoleWindowInfo(console, true, &srctWindow);
-    
-	Logic_Menu::Set_Data_Players();
+    //===========================================================================
+	
+	Menu menu;
+	menu.Set_Data_Players();
 
 	Grafic_Ship_Placement GrShipPlas(39, 9);
 	GrShipPlas.Border_1();
@@ -43,7 +51,7 @@ int main()
 	std::swap(a, b);
 	Grafic_Gameplay::ShowHedderPlayer1(a, 3);
 	Grafic_Gameplay::ShowHedderPlayer2(b, 3);
-
+	
 
 	_getch();
     return 0;

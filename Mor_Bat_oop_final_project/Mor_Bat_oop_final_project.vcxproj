@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Data_Info.h" />
     <ClInclude Include="Gameplay.h" />
+    <ClInclude Include="Includes.h" />
     <ClInclude Include="Ships.h" />
     <ClInclude Include="Ship_Placement.h" />
   </ItemGroup>

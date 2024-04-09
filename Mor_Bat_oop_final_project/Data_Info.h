@@ -2,6 +2,9 @@
 #include<Windows.h>
 #include<vector>
 #include"Ships.h"
+#include<string>
+
+
 
 
 class DataInput {
@@ -13,21 +16,7 @@ class Menu
 {
 public:
 	Menu();
-	void Set_Parc_Pl1(int a)  { Parc_Pl1 = a; }
-	void Set_Parc_Pl2(int a)  { Parc_Pl2 = a; }
-	void Set_Attac_Pl1(int a) { Attac_Pl1 = a;}
-	void Set_Attac_Pl2(int a) { Attac_Pl2 = a;}
-	bool Get_Parc_Pl1() { return Parc_Pl1; }
-	bool Get_Parc_Pl2() { return Parc_Pl2; }
-	bool Get_Attac_Pl1(){ return Attac_Pl1;}
-	bool Get_Attac_Pl2(){ return Attac_Pl2;}
-
-
-private:
-	int Parc_Pl1;  // = false;// расстановка кораблей:
-	int Parc_Pl2;  // = false;// true 1 - автоматическая, false 0 - ручная
-	int Attac_Pl1;  // = true; //ввод координат для атаки
-	int Attac_Pl2;  // = false; //true - автоматическая, false - ручной
+	void Set_Data_Players();
 };
 
 class Grafic_Menu 
@@ -37,36 +26,36 @@ public:
 	static void Show_Menu_PL1();
 	static void Show_Menu_PL2();
 	static void Set_Player2();
-
-private:
-
 };
 
 class Player
 {
 public:
-	
-	Player(bool parc, bool attac);
+	Player(bool parc, bool attac, std::string name);
 	~Player();
 	COORD Get_Base_Point() { return Base_Point; };
 	void Set_Base_Point(int, int);
-
-private:
 	COORD Base_Point{ 0,0 };
+private:
+	
 	std::vector<Ship>Ship_Player;
 	bool Parc;
 	bool Attac;
-
+	std::string Name;
 };
 
-class Logic_Menu
+
+
+class Create_Players
 {
 public:
-	Logic_Menu();
-
-	static void Set_Data_Players();
-
+	Create_Players();
+	Player* Get_PL1() { return PL1; }
+	Player* Get_PL2() { return PL2; }
 
 private:
-
+	int n = 2;
+	Player* PL1;
+	Player* PL2;
 };
+

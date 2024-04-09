@@ -2,10 +2,16 @@
 #include<Windows.h>
 #include <iostream>
 #include<conio.h>
+#include"Includes.h"
 
 extern HANDLE console;
 extern COORD CursorPosition;
+extern bool PARC_PL1_;// расстановка кораблей:
+extern bool PARC_PL2_;// true 1 - автоматическая, false 0 - ручная
+extern bool ATTAC_PL1_; //ввод координат для атаки
+extern bool ATTAC_PL2_; //true - автоматическая, false - ручной
 
+int Set_Parametr();
 
  void DataInput::gotoxy(int x, int y)
 {
@@ -15,14 +21,25 @@ extern COORD CursorPosition;
 }
 
 Menu::Menu(){
-	/*Parc_Pl1 = 0;
-	Parc_Pl2 = true;
-	Attac_Pl1 = false;
-	Attac_Pl2 = true;*/
-
+	
 }
 
+void  Menu::Set_Data_Players() {
 
+	Grafic_Menu::Show_Menu_PL1();
+	PARC_PL1_ = 0;
+	ATTAC_PL1_ = Set_Parametr();
+	Grafic_Menu::Set_Player2();
+	if (Set_Parametr() == 1) {
+		PARC_PL2_ = 1;
+		ATTAC_PL2_ = 1;
+	}
+	else {
+		Grafic_Menu::Show_Menu_PL2();
+		PARC_PL2_ = 0;
+		ATTAC_PL2_ = Set_Parametr();
+	}
+}
 
 void Grafic_Menu::Show_Menu_PL1() {
 	system("cls");
@@ -60,15 +77,19 @@ void Grafic_Menu::Set_Player2() {
 	
 }
 
-
-
-Player::Player(bool parc, bool attac)
+Player::Player(bool parc, bool attac, std::string name)
 {
-	Parc = parc; Attac = attac;
+	Parc = parc; Attac = attac; Name = name;
 }
 
 Player::~Player()
 {
+}
+
+int Set_Parametr() {
+	int tmp;
+	std::cin >> tmp;
+	return tmp;
 }
 
 void Player::Set_Base_Point(int X, int Y) {
@@ -77,35 +98,9 @@ void Player::Set_Base_Point(int X, int Y) {
 }
 
 
-int Set_Parametr() {
-	int tmp;
-	std::cin >> tmp;
-	return tmp;
+Create_Players::Create_Players()
+{
+	PL1 = new Player(PARC_PL1_, ATTAC_PL1_, "Player 1");
+	PL2 = new Player(PARC_PL2_, ATTAC_PL2_, "Player 2");
 }
 
-
-void  Logic_Menu::Set_Data_Players() {
-
-	Grafic_Menu::Show_Menu_PL1();
-	/*Set_Parc_Pl1(0);
-	Set_Parc_Pl1(Set_Parametr());*/
-	Menu menu;
-	menu.Set_Parc_Pl1(0);
-	menu.Set_Attac_Pl1(Set_Parametr());
-	Grafic_Menu::Set_Player2();
-	if (Set_Parametr() == 1) {
-		menu.Set_Parc_Pl2(1);
-		menu.Set_Attac_Pl2(1);
-	}
-	else {
-		Grafic_Menu::Show_Menu_PL2();
-		menu.Set_Parc_Pl2(0);
-		menu.Set_Attac_Pl2(Set_Parametr());
-	}
-
-	Player* PL1 = new Player(menu.Get_Parc_Pl1(), menu.Get_Attac_Pl1());
-	Player* PL2 = new Player(menu.Get_Parc_Pl2(), menu.Get_Attac_Pl2());
-
-
-
-}
