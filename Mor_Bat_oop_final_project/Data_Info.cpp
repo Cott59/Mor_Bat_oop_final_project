@@ -100,7 +100,10 @@ void Player::Set_Base_Point(int X, int Y) {
 
 Create_Players::Create_Players()
 {
+	/*PL1 = new Player(PARC_PL1_, ATTAC_PL1_, "Player 1");
+	PL2 = new Player(PARC_PL2_, ATTAC_PL2_, "Player 2");*/
+}
+void Create_Players::Create_Player() {
 	PL1 = new Player(PARC_PL1_, ATTAC_PL1_, "Player 1");
 	PL2 = new Player(PARC_PL2_, ATTAC_PL2_, "Player 2");
 }
-

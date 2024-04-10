@@ -4,9 +4,12 @@
 #include<conio.h>
 #include"Includes.h"
 
-Grafic_Ship_Placement::Grafic_Ship_Placement(int x,int y)
+Grafic_Ship_Placement::Grafic_Ship_Placement(Player& player)
 {
-	Base_Point.X = x; Base_Point.Y = y;
+	//Base_Point.X = player.Base_Point.X; 
+	//Base_Point.Y = player.Base_Point.Y;
+	name_player = player.Get_Name();
+
 }
 
 void Grafic_Ship_Placement::Border_1() {
@@ -47,17 +50,26 @@ void Grafic_Ship_Placement::Plean() {
 	}
 }
 
-void Grafic_Ship_Placement::Hedder_Pl1()
+void Grafic_Ship_Placement::Hedder_Pl()
 {
-	DataInput::gotoxy(35, 5); std::cout << " --------------------------- ";
-	DataInput::gotoxy(35, 6);  std::cout << " |        Player 1         | ";
-	DataInput::gotoxy(35, 7);  std::cout << " --------------------------- ";
+	DataInput::gotoxy(Base_Point.X - 4, Base_Point.Y - 4); std::cout << " --------------------------- ";
+	DataInput::gotoxy(Base_Point.X - 4, Base_Point.Y - 3);  std::cout << " |         "<< name_player<<"        | ";
+	DataInput::gotoxy(Base_Point.X - 4, Base_Point.Y - 2);  std::cout << " --------------------------- ";
 	_getch();
 }
-void Grafic_Ship_Placement::Hedder_Pl2()
+void Grafic_Ship_Placement::Show_Borders()
 {
-	DataInput::gotoxy(35, 5); std::cout << " --------------------------- ";
-	DataInput::gotoxy(35, 6);  std::cout << " |        Player 2         | ";
-	DataInput::gotoxy(35, 7);  std::cout << " --------------------------- ";
-	_getch();
+
 }
+
+
+
+
+
+//void Grafic_Ship_Placement::Hedder_Pl2()
+//{
+//	DataInput::gotoxy(35, 5); std::cout << " --------------------------- ";
+//	DataInput::gotoxy(35, 6);  std::cout << " |        Player 2         | ";
+//	DataInput::gotoxy(35, 7);  std::cout << " --------------------------- ";
+//	_getch();
+//}

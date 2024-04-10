@@ -33,9 +33,10 @@ class Player
 public:
 	Player(bool parc, bool attac, std::string name);
 	~Player();
-	COORD Get_Base_Point() { return Base_Point; };
-	void Set_Base_Point(int, int);
 	COORD Base_Point{ 0,0 };
+	void Set_Base_Point(int, int);
+	COORD Get_Base_Point() { return Base_Point; };
+	std::string Get_Name() { return Name; }
 private:
 	
 	std::vector<Ship>Ship_Player;
@@ -52,10 +53,10 @@ public:
 	Create_Players();
 	Player* Get_PL1() { return PL1; }
 	Player* Get_PL2() { return PL2; }
-
+	void Create_Player();
 private:
 	int n = 2;
-	Player* PL1;
-	Player* PL2;
+	Player* PL1=nullptr;
+	Player* PL2=nullptr;
 };
 

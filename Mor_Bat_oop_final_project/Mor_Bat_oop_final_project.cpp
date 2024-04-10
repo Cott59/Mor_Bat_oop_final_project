@@ -29,17 +29,22 @@ int main()
 	SetConsoleWindowInfo(console, true, &srctWindow);
     //===========================================================================
 	
-	Menu menu;
-	menu.Set_Data_Players();
+	/*Menu menu;
+	menu.Set_Data_Players();*/
 
-	Grafic_Ship_Placement GrShipPlas(39, 9);
+	Create_Players cp;
+	cp.Create_Player();
+
+	Grafic_Ship_Placement GrShipPlas(*(cp.Get_PL1()));
 	GrShipPlas.Border_1();
 	GrShipPlas.Border_2();
 	GrShipPlas.Plean();
-	GrShipPlas.Hedder_Pl1();
-	GrShipPlas.Hedder_Pl2();
+	GrShipPlas.Hedder_Pl();
+	
 
-	int a = 15;
+	
+
+	/*int a = 15;
 	int b = 49;
 	
 	Grafic_Gameplay::ShowBorder();
@@ -50,7 +55,7 @@ int main()
 	_getch();
 	std::swap(a, b);
 	Grafic_Gameplay::ShowHedderPlayer1(a, 3);
-	Grafic_Gameplay::ShowHedderPlayer2(b, 3);
+	Grafic_Gameplay::ShowHedderPlayer2(b, 3);*/
 	
 
 	_getch();
