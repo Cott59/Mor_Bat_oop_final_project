@@ -12,17 +12,26 @@ public:
 	void Border_2();
 	void Plean();
 	void Hedder_Pl();
-	void Show_Borders();
-
-	/*void Hedder_Pl2();*/
-	//void ShowShipKater();
 private:
 	std::string name_player;
 
 };
 
-//void Kater::ShowShip()
-//{
-//	gotoxy(P1.X, P1.Y); std::cout << 'X';
-//}
+class Show_Ship
+{
+public:
+	Show_Ship(Ship* ship);
 
+};
+
+
+
+class Ship_Placement_Logic
+{
+public:
+	Ship_Placement_Logic(Player* player);
+	void Set_Ships_Placement();
+
+private:
+	Player* player_tmp;
+};

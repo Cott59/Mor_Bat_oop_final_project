@@ -9,7 +9,8 @@
 
 class DataInput {
 public:
-	static void gotoxy(int x, int y);
+	static void gotoxy(int , int );
+	static bool CheckPoint(int x, int y,bool *arr);
 };
 
 class Menu 

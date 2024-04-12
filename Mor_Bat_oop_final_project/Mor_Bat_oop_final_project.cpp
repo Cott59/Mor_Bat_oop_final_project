@@ -14,8 +14,8 @@ bool PARC_PL2_ = false;// true 1 - автоматическая, false 0 - ру�
 bool ATTAC_PL1_ = true; //ввод координат для атаки
 bool ATTAC_PL2_ = false; //true - автоматическая, false - ручной
 
-int X_;
-int Y_;
+int X_=1;
+int Y_=1;
 
 
 int main()
@@ -31,18 +31,23 @@ int main()
 	
 	/*Menu menu;
 	menu.Set_Data_Players();*/
-
+	//=======================================
 	Create_Players cp;
 	cp.Create_Player();
-
-	Grafic_Ship_Placement GrShipPlas(*(cp.Get_PL1()));
-	GrShipPlas.Border_1();
-	GrShipPlas.Border_2();
-	GrShipPlas.Plean();
-	GrShipPlas.Hedder_Pl();
+	//=======================================
+	
+	Ship_Placement_Logic SPLogic1(cp.Get_PL1());
+	SPLogic1.Set_Ships_Placement();
+	
 	
 
-	
+
+
+
+
+
+
+	//================================================
 
 	/*int a = 15;
 	int b = 49;

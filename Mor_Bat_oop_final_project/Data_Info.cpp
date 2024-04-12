@@ -20,6 +20,12 @@ int Set_Parametr();
 	SetConsoleCursorPosition(console, CursorPosition);
 }
 
+ bool DataInput::CheckPoint(int x, int y, bool* arr[11])
+ {
+
+
+ }
+
 Menu::Menu(){
 	
 }
@@ -98,11 +104,8 @@ void Player::Set_Base_Point(int X, int Y) {
 }
 
 
-Create_Players::Create_Players()
-{
-	/*PL1 = new Player(PARC_PL1_, ATTAC_PL1_, "Player 1");
-	PL2 = new Player(PARC_PL2_, ATTAC_PL2_, "Player 2");*/
-}
+Create_Players::Create_Players(){}
+
 void Create_Players::Create_Player() {
 	PL1 = new Player(PARC_PL1_, ATTAC_PL1_, "Player 1");
 	PL2 = new Player(PARC_PL2_, ATTAC_PL2_, "Player 2");

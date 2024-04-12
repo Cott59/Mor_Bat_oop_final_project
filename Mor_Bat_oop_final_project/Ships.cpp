@@ -4,7 +4,7 @@
 #include"Includes.h"
 
 
-Kater::Kater(int X, int Y)
+Kater::Kater()
 {
 }
 
@@ -12,9 +12,14 @@ Kater::~Kater()
 {
 }
 
-
-
-
-
-
-
+//void Kater::ShowShip()
+//{
+//	DataInput::gotoxy(1, 1); std::cout << 'X';
+//}
+//
+//void Destroyer::ShowShip()
+//{
+//	DataInput::gotoxy(1, 1); std::cout << 'X';
+//	DataInput::gotoxy(2, 1); std::cout << 'X';
+//
+//}
