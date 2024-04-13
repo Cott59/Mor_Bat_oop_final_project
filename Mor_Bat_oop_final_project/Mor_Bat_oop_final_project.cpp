@@ -1,5 +1,5 @@
 ﻿#include<conio.h>
-#include <iostream>
+#include<iostream>
 #include<Windows.h>
 #include"Data_Info.h"
 #include"Gameplay.h"
@@ -29,8 +29,8 @@ int main()
 	SetConsoleWindowInfo(console, true, &srctWindow);
     //===========================================================================
 	
-	/*Menu menu;
-	menu.Set_Data_Players();*/
+	//Menu menu;
+	//menu.Set_Data_Players();
 	//=======================================
 	Create_Players cp;
 	cp.Create_Player();

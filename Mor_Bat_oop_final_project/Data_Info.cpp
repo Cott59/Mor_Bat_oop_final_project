@@ -20,11 +20,7 @@ int Set_Parametr();
 	SetConsoleCursorPosition(console, CursorPosition);
 }
 
- bool DataInput::CheckPoint(int x, int y, bool* arr[11])
- {
-
-
- }
+ 
 
 Menu::Menu(){
 	

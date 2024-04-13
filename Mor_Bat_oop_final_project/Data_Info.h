@@ -10,7 +10,7 @@
 class DataInput {
 public:
 	static void gotoxy(int , int );
-	static bool CheckPoint(int x, int y,bool *arr);
+	
 };
 
 class Menu 
@@ -38,6 +38,8 @@ public:
 	void Set_Base_Point(int, int);
 	COORD Get_Base_Point() { return Base_Point; };
 	std::string Get_Name() { return Name; }
+	bool Get_Parc() { return Parc; }
+	bool Get_Attac() { return Attac; }
 private:
 	
 	std::vector<Ship>Ship_Player;
