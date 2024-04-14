@@ -190,14 +190,14 @@ bool Change_Min_Y(Ship& ship, int num = 0) {
 bool Input_Button(Ship& ship) { 
 	std::cin.clear();
 	int code;
+	char ch = _getch();
 	if (_kbhit()) {
-		char ch = _getch();
 		code = static_cast<int>(ch);
 		switch (code) {
-		case 80:Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
-		case 72:Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
-		case 75:Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
-		case 77:Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
+		case VK_DOWN/*80*/:Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break; 
+		case VK_UP/*72*/:Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
+		case VK_LEFT/*75*/:Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
+		case VK_RIGHT/*77*/:Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
 		case VK_TAB:; break; 
 		case VK_RETURN:return false; break;
 
