@@ -6,6 +6,7 @@
 #include"Includes.h"
 #include<Windows.h>
 #include<algorithm>
+#include<dos.h> 
 
 extern int X_;
 extern int Y_;
@@ -19,7 +20,7 @@ void GrShow_Point::GrShowPoint(Ship& ship, COORD BPoint)
 {
 	for (auto& i : ship.vc) {
 		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
-		std::cout << "X";
+		std::cout << " X";
 	}
 }
 
@@ -27,7 +28,7 @@ void GrShow_Point::GrCleanPoint(Ship& ship, COORD BPoint)
 {
 	for (auto& i : ship.vc) {
 		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
-		std::cout << " ";
+		std::cout  << "  ";
 	}
 
 }
@@ -132,8 +133,6 @@ Ship_Placement_Logic::Ship_Placement_Logic(Player* player)
 	player_tmp = player;
 }
 
-
-
 bool Change_Max_X(Ship& ship, int num=0) {
 	int x = (ship.vc).begin()->X + num;
 	int y = (ship.vc).begin()->Y;
@@ -187,53 +186,36 @@ bool Change_Min_Y(Ship& ship, int num = 0) {
 	else return false;
 }
 
-bool Input_Button(Ship& ship) { 
+bool Input_Button(Ship& ship) {
 	std::cin.clear();
-	int code;
+	//int code;
 	char ch = _getch();
-	if (_kbhit()) {
-		code = static_cast<int>(ch);
-		switch (code) {
-		case VK_DOWN/*80*/:Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break; 
-		case VK_UP/*72*/:Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-		case VK_LEFT/*75*/:Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-		case VK_RIGHT/*77*/:Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-		case VK_TAB:; break; 
-		case VK_RETURN:return false; break;
-
-		default:
-			break;
-		}
-	}
-
-	//char ch = _getch();
 	//if (_kbhit()) {
-	//	
-	//	if (ch == 80) {
-	//		Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//	}
-	//	else
-	//		if (ch == 72) {
-	//			Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//		}
-	//		else
-	//			if (ch == 75) {
-	//				Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//			}
-	//			else
-	//				if (ch == 77) {
-	//					Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//				}
-	//				else
-	//					if (ch == 8) {
-	//					}
-	//					else
-	//						if (ch == 13 /*28*/)
-	//							return false;
-	//	
-	//}
-	
+	//	//code = static_cast<int>(ch);
+	//	switch (ch) {
+	//	case /*VK_DOWN 80*/'s':Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
+	//	case /*VK_UP 72 */ 'w':Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
+	//	case /*VK_LEFT 75*/ 'a':Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
+	//	case /*VK_RIGHT 77*/'d':Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
+	//	case VK_TAB:; break;
+	//	case VK_RETURN:return false; break;
 
+	//	default:
+	//		break;
+	//	}
+	//}
+	switch (ch) {
+	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship, 1);  return false; break;
+	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
+	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship, 1);  return false; break;
+	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship, 1);  return false; break;
+	case VK_TAB:; break;
+	case VK_RETURN:return true; break;
+
+	default:
+		break;
+
+	}
 }
 
 void Ship_Placement_Logic::Set_Ships_Placement()
@@ -260,7 +242,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 			if (CheckOnePoint(shipTmp, Check_Plain) == 0) {
 				bool tmp1 = CheckPoint(shipTmp, Check_Plain);
 				if (tmp1 == 1) {
-					//...............
+					std::cout << "error" << '\n';
 				}
 				else
 					if (tmp1 == 0) {
@@ -268,7 +250,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 					}
 			}
 			tmp =Input_Button(shipTmp);
-			if (tmp == 0)
+			if (tmp == 1)
 				SetPoint(shipTmp, Check_Plain);
 		} while (tmp == false);
 
@@ -327,10 +309,38 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 ////	}
 ////
 ////
+// 
 ////
 ////
 ////
 ////	return 1;
+// //char ch = _getch();
+	//if (_kbhit()) {
+	//	
+	//	if (ch == 80) {
+	//		Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//	}
+	//	else
+	//		if (ch == 72) {
+	//			Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//		}
+	//		else
+	//			if (ch == 75) {
+	//				Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//			}
+	//			else
+	//				if (ch == 77) {
+	//					Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//				}
+	//				else
+	//					if (ch == 8) {
+	//					}
+	//					else
+	//						if (ch == 13 /*28*/)
+	//							return false;
+	//	
+	//}
+// 
 ////}
 
 
