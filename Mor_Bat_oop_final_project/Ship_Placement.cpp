@@ -1,9 +1,11 @@
 #include <iostream>
 #include"Data_Info.h"
 #include"Ship_Placement.h"
+#include"Ships.h"
 #include<conio.h>
 #include"Includes.h"
 #include<Windows.h>
+#include<algorithm>
 
 extern int X_;
 extern int Y_;
@@ -13,20 +15,22 @@ extern bool ATTAC_PL1_; //ввод координат для атаки
 extern bool ATTAC_PL2_; //true - автоматическая, false - ручной
 
 
-void GrShow_Point::GrShowPoint()
+void GrShow_Point::GrShowPoint(Ship& ship, COORD BPoint)
 {
-	for (auto i : Show_Point)
-		DataInput::gotoxy(Base_Point.X + i.X, Base_Point.Y + i.Y); std::cout << "X";
+	for (auto& i : ship.vc) {
+		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
+		std::cout << "X";
+	}
 }
 
-void GrShow_Point::GrCleanPoint()
+void GrShow_Point::GrCleanPoint(Ship& ship, COORD BPoint)
 {
-	for (auto i : Show_Point)
-		DataInput::gotoxy(Base_Point.X + i.X, Base_Point.Y + i.Y); std::cout << " ";
+	for (auto& i : ship.vc) {
+		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
+		std::cout << " ";
+	}
 
 }
-
-
 
 Grafic_Ship_Placement::Grafic_Ship_Placement(Player& player)
 {
@@ -80,10 +84,10 @@ void Grafic_Ship_Placement::Hedder_Pl()
 	DataInput::gotoxy(Base_Point.X - 4, Base_Point.Y - 2);  std::cout << " --------------------------- ";
 }
 
-int CheckPoint(int num1, int num2, int arr[][11]) {
-	int* pp1 = &arr[num1 - 1][num2 - 1];
-	int* pp2 = &arr[num1][num2 - 1];
-	int* pp3 = &arr[num1 + 1][num2 - 1];
+int CheckPoint(Ship& ship, int arr[][11]) {
+	int* pp1 = &arr[(ship.vc).begin()->X - 1][(ship.vc).begin()->Y - 1];
+	int* pp2 = &arr[(ship.vc).begin()->X][(ship.vc).begin()->Y - 1];
+	int* pp3 = &arr[(ship.vc).begin()->X + 1][(ship.vc).begin()->Y - 1];
 	for (int i = 1; i <= 3; i++) {
 		if (*pp1 == 1) return 1;
 		if (*pp2 == 1) return 1;
@@ -93,9 +97,15 @@ int CheckPoint(int num1, int num2, int arr[][11]) {
 	return 0;
 }
 
+bool CheckOnePoint(Ship& ship, int arr[][11]) {
+	if (arr[(ship.vc).begin()->X][(ship.vc).begin()->Y] == 1) return true;
+	else return false;
+}
 
-void SetPoint(int num1, int num2, int arr[][11]) {
-	arr[num1][num2] = 1;
+void SetPoint(Ship& ship, int arr[][11]) {
+	std::for_each(ship.vc.begin(), ship.vc.end(), [&arr](COORD& coorduse) {
+		arr[coorduse.X][coorduse.Y] = 1;
+		});
 }
 
 void PlayerCreatePoint() {
@@ -109,11 +119,12 @@ void AutoCreatePoint() {
 	Y_ = std::rand() % 10 + 1;
 }
 
-void CreatePoint(bool parc) {
+void CreateNewPoint(bool parc) {
 	if (parc == 0)
 		PlayerCreatePoint();
 	else
 		AutoCreatePoint();
+
 }
 
 Ship_Placement_Logic::Ship_Placement_Logic(Player* player)
@@ -121,13 +132,13 @@ Ship_Placement_Logic::Ship_Placement_Logic(Player* player)
 	player_tmp = player;
 }
 
-void Input_Button(COORD& coord) {
+void Input_Button(Ship& ship) {
 	char ch = _getch();
 	switch (ch) {
-	case 80:coord.Y++ ; break;
-	case 72:coord.Y--; break;
-	case 75:coord.X--; break;
-	case 77:coord.X++; break;
+	case 80:/*coord.Y++*/ ; break;
+	case 72:/*coord.Y--*/; break;
+	case 75:/*coord.X--*/; break;
+	case 77:/*coord.X++*/; break;
 	case 8:; break;
 	case 28:; break;
 
@@ -154,7 +165,58 @@ void Input_Button(COORD& coord) {
 
 }
 
-
+bool Change_Max_X(Ship& ship, int num=0) {
+	int x = (ship.vc).begin()->X + num;
+	int y = (ship.vc).begin()->Y;
+	for (auto& i : ship.vc) {
+		i.X = x;
+		i.Y = y;
+		x++;
+	}
+	if (x > 10) {
+		return true;
+	}
+	else return false;
+}
+bool Change_Min_X(Ship& ship, int num = 0) {
+	int x = (ship.vc).begin()->X - num;
+	int y = (ship.vc).begin()->Y;
+	for (auto& i : ship.vc) {
+		i.X = x;
+		i.Y = y;
+		x--;
+	}
+	if (x < 1) {
+		return true;
+	}
+	else return false;
+}
+bool Change_Max_Y(Ship& ship, int num = 0) {
+	int x = (ship.vc).begin()->X ;
+	int y = (ship.vc).begin()->Y + num;
+	for (auto& i : ship.vc) {
+		i.X = x;
+		i.Y = y;
+		y++;
+	}
+	if (y > 10) {
+		return true;
+	}
+	else return false;
+}
+bool Change_Min_Y(Ship& ship, int num = 0) {
+	int x = (ship.vc).begin()->X;
+	int y = (ship.vc).begin()->Y - num;
+	for (auto& i : ship.vc) {
+		i.X = x;
+		i.Y = y;
+		y--;
+	}
+	if (y < 1) {
+		return true;
+	}
+	else return false;
+}
 
 void Ship_Placement_Logic::Set_Ships_Placement()
 {
@@ -165,28 +227,30 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 	GrShipPlac.Hedder_Pl();
 	int Check_Plain[11][11] = { 0 };
 	for (int i = 1; i <= 4; i++) {
+		CreateNewPoint(1); 
+		Ship shipTmp(4);
+		bool CheckBorder=true;
+		do {
+			shipTmp.SetData();
+			CheckBorder =Change_Max_X(shipTmp);
+			if(CheckBorder==1)
+				AutoCreatePoint();
+		} while (CheckBorder==true);
+		bool Position = true;
 		bool tmp = true;
 		do {
-			bool Position = true;
-			bool check = true;
-			COORD P1{ 0,0 };
-			GrShow_Point grshowpoints(P1);
-			do {
-				CreatePoint(1);
-				P1.X = X_; P1.Y = Y_;
-				if (CheckPoint(P1.X, P1.Y, Check_Plain) == 0) {
-					grshowpoints.GrShowPoint();
-					check = false;
+			if (CheckOnePoint(shipTmp, Check_Plain) == 0) {
+				tmp = CheckPoint(shipTmp, Check_Plain);
+				if (tmp == 1) {
 				}
-				else {
-					grshowpoints.GrCleanPoint();
-					grshowpoints.~GrShow_Point();
-					continue;
-				}
-
-			} while (check == true);
-			Input_Button(P1);
-
+				else
+					if (tmp == 0) {
+						GrShow_Point::GrShowPoint(shipTmp);
+					}
+				Input_Button(shipTmp);
+			}
+			
+			SetPoint(shipTmp, Check_Plain); 
 
 		} while (tmp == true);
 
@@ -202,16 +266,18 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 ////	
 ////	while (1) {
 ////
-////		P1.X = x;
-////		P1.Y = y;
-////		if (Position == true) {
-////			P2.X = x + 1, P3.X = x + 2, P4.X = x + 3;
-////			P2.Y = P3.Y = P4.Y = y;
-////		}
-////		else {
-////			P2.Y = y + 1, P3.Y = y + 2, P4.Y = y + 3;
-////			P2.X = P3.X = P4.X = x;
-////		}
+
+	/*	P1.X = x;
+		P1.Y = y;
+		if (Position == true) {
+			P2.X = x + 1, P3.X = x + 2, P4.X = x + 3;
+			P2.Y = P3.Y = P4.Y = y;
+		}
+		else {
+			P2.Y = y + 1, P3.Y = y + 2, P4.Y = y + 3;
+			P2.X = P3.X = P4.X = x;
+		}*/
+
 ////
 ////		Ship();
 ////		//system("cls");

@@ -10,11 +10,12 @@ struct point_ship {
 
 class Ship {
 public:
-	COORD Temp = { 0,0 };
-	//virtual void ShowShip()=0;
+	Ship(int);
+	std::vector<COORD> vc;
+	void SetData();
 };
 
-class Kater :public Ship //однопалубный
+class Kater  //однопалубный
 {
 private:
 public:
@@ -24,7 +25,7 @@ public:
 	//void ShowShip() override;
 };
 
-class Destroyer :public Ship   //двухпалубный
+class Destroyer    //двухпалубный
 {
 private:
 public:

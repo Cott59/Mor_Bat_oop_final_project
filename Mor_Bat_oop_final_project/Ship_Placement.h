@@ -23,7 +23,7 @@ private:
 class GrShow_Point
 {
 public:
-	GrShow_Point(COORD P1) {
+	/*GrShow_Point(COORD P1) {
 		Show_Point.push_back(P1);
 	}
 	GrShow_Point(COORD P1, COORD P2) :GrShow_Point(P1) {
@@ -34,14 +34,14 @@ public:
 	};
 	GrShow_Point(COORD P1, COORD P2, COORD P3, COORD P4) :GrShow_Point(P1,P2,P3) {
 		Show_Point.push_back(P4);
-	};
-	void GrShowPoint();
-	void GrCleanPoint();
-	~GrShow_Point() {};
+	};*/
+	static void GrShowPoint(Ship&ship,COORD BPoint={ 39,9 });
+	static void GrCleanPoint(Ship& ship, COORD BPoint = { 39,9 });
+	//~GrShow_Point() {};
 
 private:
-	std::vector<COORD> Show_Point;
-	COORD Base_Point = { 39,9 };
+	//std::vector<COORD> Show_Point;
+	//COORD Base_Point = { 39,9 };
 };
 
 
