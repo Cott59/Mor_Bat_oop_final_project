@@ -132,38 +132,7 @@ Ship_Placement_Logic::Ship_Placement_Logic(Player* player)
 	player_tmp = player;
 }
 
-void Input_Button(Ship& ship) {
-	char ch = _getch();
-	switch (ch) {
-	case 80:/*coord.Y++*/ ; break;
-	case 72:/*coord.Y--*/; break;
-	case 75:/*coord.X--*/; break;
-	case 77:/*coord.X++*/; break;
-	case 8:; break;
-	case 28:; break;
 
-	default:
-		break;
-	}
-	/*if (ch == 80)
-		y++;
-	else
-		if (ch == 72)
-			y--;
-		else
-			if (ch == 75)
-				x--;
-			else
-				if (ch == 77)
-					x++;
-				else
-					if (ch == 8)
-						Position = 1;
-					else
-						if (ch == 28)
-							exit(1);*/
-
-}
 
 bool Change_Max_X(Ship& ship, int num=0) {
 	int x = (ship.vc).begin()->X + num;
@@ -218,6 +187,55 @@ bool Change_Min_Y(Ship& ship, int num = 0) {
 	else return false;
 }
 
+bool Input_Button(Ship& ship) { 
+	std::cin.clear();
+	int code;
+	if (_kbhit()) {
+		char ch = _getch();
+		code = static_cast<int>(ch);
+		switch (code) {
+		case 80:Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
+		case 72:Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
+		case 75:Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
+		case 77:Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return false; break;
+		case VK_TAB:; break; 
+		case VK_RETURN:return false; break;
+
+		default:
+			break;
+		}
+	}
+
+	//char ch = _getch();
+	//if (_kbhit()) {
+	//	
+	//	if (ch == 80) {
+	//		Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//	}
+	//	else
+	//		if (ch == 72) {
+	//			Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//		}
+	//		else
+	//			if (ch == 75) {
+	//				Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//			}
+	//			else
+	//				if (ch == 77) {
+	//					Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
+	//				}
+	//				else
+	//					if (ch == 8) {
+	//					}
+	//					else
+	//						if (ch == 13 /*28*/)
+	//							return false;
+	//	
+	//}
+	
+
+}
+
 void Ship_Placement_Logic::Set_Ships_Placement()
 {
 	Grafic_Ship_Placement GrShipPlac(*(player_tmp));
@@ -228,7 +246,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 	int Check_Plain[11][11] = { 0 };
 	for (int i = 1; i <= 4; i++) {
 		CreateNewPoint(1); 
-		Ship shipTmp(4);
+		Ship shipTmp(2);
 		bool CheckBorder=true;
 		do {
 			shipTmp.SetData();
@@ -240,19 +258,19 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 		bool tmp = true;
 		do {
 			if (CheckOnePoint(shipTmp, Check_Plain) == 0) {
-				tmp = CheckPoint(shipTmp, Check_Plain);
-				if (tmp == 1) {
+				bool tmp1 = CheckPoint(shipTmp, Check_Plain);
+				if (tmp1 == 1) {
+					//...............
 				}
 				else
-					if (tmp == 0) {
+					if (tmp1 == 0) {
 						GrShow_Point::GrShowPoint(shipTmp);
 					}
-				Input_Button(shipTmp);
 			}
-			
-			SetPoint(shipTmp, Check_Plain); 
-
-		} while (tmp == true);
+			tmp =Input_Button(shipTmp);
+			if (tmp == 0)
+				SetPoint(shipTmp, Check_Plain);
+		} while (tmp == false);
 
 	}
 
