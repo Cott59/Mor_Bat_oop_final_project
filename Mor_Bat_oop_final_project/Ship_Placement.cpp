@@ -28,7 +28,7 @@ void GrShow_Point::GrCleanPoint(Ship& ship, COORD BPoint)
 {
 	for (auto& i : ship.vc) {
 		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
-		std::cout  << "  ";
+		std::cout << " " << " ";
 	}
 
 }
@@ -85,25 +85,35 @@ void Grafic_Ship_Placement::Hedder_Pl()
 	DataInput::gotoxy(Base_Point.X - 4, Base_Point.Y - 2);  std::cout << " --------------------------- ";
 }
 
-int CheckPoint(Ship& ship, int arr[][11]) {
-	int* pp1 = &arr[(ship.vc).begin()->X - 1][(ship.vc).begin()->Y - 1];
-	int* pp2 = &arr[(ship.vc).begin()->X][(ship.vc).begin()->Y - 1];
-	int* pp3 = &arr[(ship.vc).begin()->X + 1][(ship.vc).begin()->Y - 1];
+int CheckPoint(COORD& coordata, int arr[][12]) {
+	int* pp1 = &arr[coordata.X - 1][coordata.Y - 1];
+	int* pp2 = &arr[coordata.X-1][coordata.Y];
+	int* pp3 = &arr[coordata.X - 1][coordata.Y + 1];
 	for (int i = 1; i <= 3; i++) {
 		if (*pp1 == 1) return 1;
 		if (*pp2 == 1) return 1;
 		if (*pp3 == 1) return 1;
 		pp1++; pp2++; pp3++;
 	}
+	
 	return 0;
 }
 
-bool CheckOnePoint(Ship& ship, int arr[][11]) {
+int CheckPointToPlain(Ship& ship, int arr[][12]) {
+	int check = 1;
+	std::for_each(ship.vc.begin(), ship.vc.end(), [&arr,&check](COORD& coorduse) {
+		check=CheckPoint(coorduse, arr); 
+		if (check == 1) return 1;
+		}); 
+	return 0;
+}
+
+bool CheckOnePoint(Ship& ship, int arr[][12]) {
 	if (arr[(ship.vc).begin()->X][(ship.vc).begin()->Y] == 1) return true;
 	else return false;
 }
 
-void SetPoint(Ship& ship, int arr[][11]) {
+void SetPoint(Ship& ship, int arr[][12]) {
 	std::for_each(ship.vc.begin(), ship.vc.end(), [&arr](COORD& coorduse) {
 		arr[coorduse.X][coorduse.Y] = 1;
 		});
@@ -225,7 +235,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 	GrShipPlac.Border_2();
 	//GrShipPlac.Plean();
 	GrShipPlac.Hedder_Pl();
-	int Check_Plain[11][11] = { 0 };
+	int Check_Plain[12][12] = { 0 };
 	for (int i = 1; i <= 4; i++) {
 		CreateNewPoint(1); 
 		Ship shipTmp(2);
@@ -240,7 +250,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 		bool tmp = true;
 		do {
 			if (CheckOnePoint(shipTmp, Check_Plain) == 0) {
-				bool tmp1 = CheckPoint(shipTmp, Check_Plain);
+				bool tmp1 = CheckPointToPlain(shipTmp, Check_Plain);
 				if (tmp1 == 1) {
 					std::cout << "error" << '\n';
 				}
