@@ -143,7 +143,7 @@ Ship_Placement_Logic::Ship_Placement_Logic(Player* player)
 	player_tmp = player;
 }
 
-bool Change_Max_X(Ship& ship, int num=0) {
+bool InstalShip(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X + num;
 	int y = (ship.vc).begin()->Y;
 	for (auto& i : ship.vc) {
@@ -156,7 +156,25 @@ bool Change_Max_X(Ship& ship, int num=0) {
 	}
 	else return false;
 }
-bool Change_Min_X(Ship& ship, int num = 0) {
+
+void Change_Max_X(Ship& ship, int num=0) {
+	int tmpx = (ship.vc).begin()->X;
+	int tmpy = (ship.vc).begin()->Y;
+	int x = (ship.vc).begin()->X + num;
+	int y = (ship.vc).begin()->Y;
+	do {
+		for (auto& i : ship.vc) {
+			i.X = x;
+			i.Y = y;
+			x++;
+		}
+		if (x > 10)
+
+	} while (x > 10);
+	
+
+}
+void Change_Min_X(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X - num;
 	int y = (ship.vc).begin()->Y;
 	for (auto& i : ship.vc) {
@@ -164,12 +182,9 @@ bool Change_Min_X(Ship& ship, int num = 0) {
 		i.Y = y;
 		x--;
 	}
-	if (x < 1) {
-		return true;
-	}
-	else return false;
+	
 }
-bool Change_Max_Y(Ship& ship, int num = 0) {
+void Change_Max_Y(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X ;
 	int y = (ship.vc).begin()->Y + num;
 	for (auto& i : ship.vc) {
@@ -177,12 +192,9 @@ bool Change_Max_Y(Ship& ship, int num = 0) {
 		i.Y = y;
 		y++;
 	}
-	if (y > 10) {
-		return true;
-	}
-	else return false;
+	
 }
-bool Change_Min_Y(Ship& ship, int num = 0) {
+void Change_Min_Y(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X;
 	int y = (ship.vc).begin()->Y - num;
 	for (auto& i : ship.vc) {
@@ -190,15 +202,11 @@ bool Change_Min_Y(Ship& ship, int num = 0) {
 		i.Y = y;
 		y--;
 	}
-	if (y < 1) {
-		return true;
-	}
-	else return false;
+	
 }
 
 bool Input_Button(Ship& ship) {
 	std::cin.clear();
-	//int code;
 	char ch = _getch();
 	//if (_kbhit()) {
 	//	//code = static_cast<int>(ch);
@@ -219,12 +227,8 @@ bool Input_Button(Ship& ship) {
 	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
 	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship, 1);  return false; break;
 	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship, 1);  return false; break;
-	case VK_TAB:; break;
+	case VK_TAB:  return false; break;
 	case VK_RETURN:return true; break;
-
-	default:
-		break;
-
 	}
 }
 
@@ -242,7 +246,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 		bool CheckBorder=true;
 		do {
 			shipTmp.SetData();
-			CheckBorder =Change_Max_X(shipTmp);
+			CheckBorder = InstalShip(shipTmp);
 			if(CheckBorder==1)
 				AutoCreatePoint();
 		} while (CheckBorder==true);
