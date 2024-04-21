@@ -20,7 +20,11 @@ void GrShow_Point::GrShowPoint(Ship& ship, COORD BPoint)
 {
 	for (auto& i : ship.vc) {
 		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
-		std::cout << " X";
+		std::cout << "X";
+		if (ship.PosRotation == true) {
+			DataInput::gotoxy(BPoint.X + i.X+1, BPoint.Y + i.Y);
+			std::cout << " ";
+		}
 	}
 }
 
@@ -158,21 +162,25 @@ bool InstalShip(Ship& ship, int num = 0) {
 }
 
 void Change_Max_X(Ship& ship, int num=0) {
-	int tmpx = (ship.vc).begin()->X;
-	int tmpy = (ship.vc).begin()->Y;
-	int x = (ship.vc).begin()->X + num;
-	int y = (ship.vc).begin()->Y;
-	do {
-		for (auto& i : ship.vc) {
-			i.X = x;
-			i.Y = y;
-			x++;
-		}
-		if (x > 10)
-
-	} while (x > 10);
-	
-
+	ship.vc.begin()->X += 1;
+	for (auto v = ship.vc.begin() + 1; v != ship.vc.end();v++) {
+		std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) {
+			if (ship.PosRotation == true) {
+				if (coordnum1.X == 10) 
+					v->X=1;
+				else 
+					v->X = coordnum1.X + 1;
+			}
+			else {
+				if (coordnum1.X == 11) {
+					coordnum1.X = 1;
+					v->X = 1;
+				}
+				else
+					v->X = coordnum1.X;
+			}
+		});
+	}
 }
 void Change_Min_X(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X - num;
@@ -205,6 +213,7 @@ void Change_Min_Y(Ship& ship, int num = 0) {
 	
 }
 
+
 bool Input_Button(Ship& ship) {
 	std::cin.clear();
 	char ch = _getch();
@@ -227,8 +236,11 @@ bool Input_Button(Ship& ship) {
 	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
 	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship, 1);  return false; break;
 	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship, 1);  return false; break;
-	case VK_TAB:  return false; break;
-	case VK_RETURN:return true; break;
+	//case VK_TAB:  return false; break;
+	//case VK_RETURN:return true; break;
+	default:return true;
+		break;
+
 	}
 }
 
@@ -237,7 +249,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 	Grafic_Ship_Placement GrShipPlac(*(player_tmp));
 	GrShipPlac.Border_1();
 	GrShipPlac.Border_2();
-	//GrShipPlac.Plean();
+	GrShipPlac.Plean();
 	GrShipPlac.Hedder_Pl();
 	int Check_Plain[12][12] = { 0 };
 	for (int i = 1; i <= 4; i++) {

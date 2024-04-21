@@ -9,7 +9,7 @@
 
 class DataInput {
 public:
-	static void gotoxy(int , int );
+	static void gotoxy(int x, int y ); 
 	
 };
 

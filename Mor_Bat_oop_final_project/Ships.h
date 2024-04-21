@@ -13,6 +13,7 @@ public:
 	Ship(int);
 	std::vector<COORD> vc;
 	void SetData();
+	bool PosRotation = true;
 };
 
 class Kater  //однопалубный

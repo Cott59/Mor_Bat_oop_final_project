@@ -15,8 +15,8 @@ int Set_Parametr();
 
  void DataInput::gotoxy(int x, int y)
 {
-	CursorPosition.X = x;
-	CursorPosition.Y = y;
+	 CursorPosition.X = (short)x;
+	 CursorPosition.Y = (short)y;
 	SetConsoleCursorPosition(console, CursorPosition);
 }
 

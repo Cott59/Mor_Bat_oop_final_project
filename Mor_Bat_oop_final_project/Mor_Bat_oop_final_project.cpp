@@ -17,6 +17,14 @@ bool ATTAC_PL2_ = false; //true - автоматическая, false - ручн
 int X_=1;
 int Y_=1;
 
+void ConsoleCursorVisible(bool show, short size)
+{
+	CONSOLE_CURSOR_INFO structCursorInfo;
+	GetConsoleCursorInfo(console, &structCursorInfo);
+	structCursorInfo.bVisible = show; // изменяем видимость курсора
+	structCursorInfo.dwSize = size;   // изменяем размер курсора
+	SetConsoleCursorInfo(console, &structCursorInfo);
+}
 
 int main()
 {
@@ -27,6 +35,7 @@ int main()
 	SetConsoleWindowInfo(console, true, &minWindow);
 	SetConsoleScreenBufferSize(console, maxWindow);
 	SetConsoleWindowInfo(console, true, &srctWindow);
+	ConsoleCursorVisible(false, 100);
     //===========================================================================
 	
 	//Menu menu;
