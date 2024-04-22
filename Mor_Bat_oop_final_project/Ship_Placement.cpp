@@ -19,20 +19,16 @@ extern bool ATTAC_PL2_; //true - автоматическая, false - ручной
 void GrShow_Point::GrShowPoint(Ship& ship, COORD BPoint)
 {
 	for (auto& i : ship.vc) {
-		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
+		DataInput::gotoxy(BPoint.X +(i.X*2), BPoint.Y + i.Y);
 		std::cout << "X";
-		if (ship.PosRotation == true) {
-			DataInput::gotoxy(BPoint.X + i.X+1, BPoint.Y + i.Y);
-			std::cout << " ";
-		}
 	}
 }
 
 void GrShow_Point::GrCleanPoint(Ship& ship, COORD BPoint)
 {
 	for (auto& i : ship.vc) {
-		DataInput::gotoxy(BPoint.X + i.X, BPoint.Y + i.Y);
-		std::cout << " " << " ";
+		DataInput::gotoxy(BPoint.X + (i.X*2), BPoint.Y + i.Y);
+		std::cout << " ";
 	}
 
 }
@@ -163,7 +159,7 @@ bool InstalShip(Ship& ship, int num = 0) {
 
 void Change_Max_X(Ship& ship, int num=0) {
 	ship.vc.begin()->X += 1;
-	for (auto v = ship.vc.begin() + 1; v != ship.vc.end();v++) {
+	/*for (auto v = ship.vc.begin() + 1; v != ship.vc.end();v++) {
 		std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) {
 			if (ship.PosRotation == true) {
 				if (coordnum1.X == 10) 
@@ -180,7 +176,29 @@ void Change_Max_X(Ship& ship, int num=0) {
 					v->X = coordnum1.X;
 			}
 		});
-	}
+	}*/
+	std::vector<COORD>::iterator v = ship.vc.begin();
+	v++;
+	do {
+		std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) {
+			if (ship.PosRotation == true) {
+				if (coordnum1.X == 10)
+					v->X = 1;
+				else
+					v->X = coordnum1.X + 1;
+			}
+			else {
+				if (coordnum1.X == 11) {
+					coordnum1.X = 1;
+					v->X = 1;
+				}
+				else
+					v->X = coordnum1.X;
+			}
+			v++;
+			});
+
+	} while (v != ship.vc.end());
 }
 void Change_Min_X(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X - num;
@@ -217,20 +235,6 @@ void Change_Min_Y(Ship& ship, int num = 0) {
 bool Input_Button(Ship& ship) {
 	std::cin.clear();
 	char ch = _getch();
-	//if (_kbhit()) {
-	//	//code = static_cast<int>(ch);
-	//	switch (ch) {
-	//	case /*VK_DOWN 80*/'s':Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-	//	case /*VK_UP 72 */ 'w':Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-	//	case /*VK_LEFT 75*/ 'a':Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-	//	case /*VK_RIGHT 77*/'d':Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true; break;
-	//	case VK_TAB:; break;
-	//	case VK_RETURN:return false; break;
-
-	//	default:
-	//		break;
-	//	}
-	//}
 	switch (ch) {
 	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship, 1);  return false; break;
 	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
