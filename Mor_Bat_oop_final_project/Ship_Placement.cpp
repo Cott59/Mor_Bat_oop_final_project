@@ -158,7 +158,12 @@ bool InstalShip(Ship& ship, int num = 0) {
 }
 
 void Change_Max_X(Ship& ship) {
-	ship.vc.begin()->X += 1;
+	if(ship.vc.begin()->X<10)
+		ship.vc.begin()->X += 1;
+	else
+		ship.vc.begin()->X = 1;
+	if (ship.vc.capacity() == 1)
+		return;
 	std::vector<COORD>::iterator p2 = ship.vc.begin();
 	p2++;
 	for ( auto p1 = ship.vc.begin(); p1 != ship.vc.end();p1++) {
@@ -177,18 +182,39 @@ void Change_Max_X(Ship& ship) {
 					p2->X = p1->X;
 			}
 			p2++;
+			if (p2 == ship.vc.end())
+				break;
 	}
-	
 }
-//std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) { });
 
-void Change_Min_X(Ship& ship, int num = 0) {
-	int x = (ship.vc).begin()->X - num;
-	int y = (ship.vc).begin()->Y;
-	for (auto& i : ship.vc) {
-		i.X = x;
-		i.Y = y;
-		x--;
+
+void Change_Min_X(Ship& ship) {
+	if (ship.vc.begin()->X > 1)
+		ship.vc.begin()->X -= 1;
+	else
+		ship.vc.begin()->X = 10;
+	if (ship.vc.capacity() == 1)
+		return;
+	std::vector<COORD>::iterator p2 = ship.vc.begin();
+	p2++;
+	for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) {
+		if (ship.PosRotation == true) {
+			if (p1->X == 10)
+				p2->X = 1;
+			else
+				p2->X = p1->X + 1;
+		}
+		else {
+			if (p1->X == 11) {
+				p1->X = 1;
+				p2->X = 1;
+			}
+			else
+				p2->X = p1->X;
+		}
+		p2++;
+		if (p2 == ship.vc.end())
+			break;
 	}
 	
 }
@@ -220,7 +246,7 @@ bool Input_Button(Ship& ship) {
 	switch (ch) {
 	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship, 1);  return false; break;
 	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
-	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship, 1);  return false; break;
+	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship);  return false; break;
 	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
 	//case VK_TAB:  return false; break;
 	//case VK_RETURN:return true; break;
@@ -240,7 +266,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 	int Check_Plain[12][12] = { 0 };
 	for (int i = 1; i <= 4; i++) {
 		CreateNewPoint(1); 
-		Ship shipTmp(2);
+		Ship shipTmp(1);
 		bool CheckBorder=true;
 		do {
 			shipTmp.SetData();
