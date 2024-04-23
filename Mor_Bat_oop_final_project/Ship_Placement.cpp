@@ -157,49 +157,31 @@ bool InstalShip(Ship& ship, int num = 0) {
 	else return false;
 }
 
-void Change_Max_X(Ship& ship, int num=0) {
+void Change_Max_X(Ship& ship) {
 	ship.vc.begin()->X += 1;
-	/*for (auto v = ship.vc.begin() + 1; v != ship.vc.end();v++) {
-		std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) {
+	std::vector<COORD>::iterator p2 = ship.vc.begin();
+	p2++;
+	for ( auto p1 = ship.vc.begin(); p1 != ship.vc.end();p1++) {
 			if (ship.PosRotation == true) {
-				if (coordnum1.X == 10) 
-					v->X=1;
+				if (p1->X == 10) 
+					p2->X=1;
 				else 
-					v->X = coordnum1.X + 1;
+					p2->X = p1->X + 1;
 			}
 			else {
-				if (coordnum1.X == 11) {
-					coordnum1.X = 1;
-					v->X = 1;
+				if (p1->X == 11) {
+					p1->X = 1;
+					p2->X = 1;
 				}
 				else
-					v->X = coordnum1.X;
+					p2->X = p1->X;
 			}
-		});
-	}*/
-	std::vector<COORD>::iterator v = ship.vc.begin();
-	v++;
-	do {
-		std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) {
-			if (ship.PosRotation == true) {
-				if (coordnum1.X == 10)
-					v->X = 1;
-				else
-					v->X = coordnum1.X + 1;
-			}
-			else {
-				if (coordnum1.X == 11) {
-					coordnum1.X = 1;
-					v->X = 1;
-				}
-				else
-					v->X = coordnum1.X;
-			}
-			v++;
-			});
-
-	} while (v != ship.vc.end());
+			p2++;
+	}
+	
 }
+//std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordnum1) { });
+
 void Change_Min_X(Ship& ship, int num = 0) {
 	int x = (ship.vc).begin()->X - num;
 	int y = (ship.vc).begin()->Y;
@@ -239,7 +221,7 @@ bool Input_Button(Ship& ship) {
 	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship, 1);  return false; break;
 	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
 	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship, 1);  return false; break;
-	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship, 1);  return false; break;
+	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
 	//case VK_TAB:  return false; break;
 	//case VK_RETURN:return true; break;
 	default:return true;
