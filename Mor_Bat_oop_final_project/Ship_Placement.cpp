@@ -158,6 +158,8 @@ bool InstalShip(Ship& ship, int num = 0) {
 }
 
 void Change_Max_X(Ship& ship) {
+	if (ship.vc.rbegin()->X == 10)
+		return;
 	if(ship.vc.begin()->X<10)
 		ship.vc.begin()->X += 1;
 	else
@@ -168,12 +170,12 @@ void Change_Max_X(Ship& ship) {
 	p2++;
 	for ( auto p1 = ship.vc.begin(); p1 != ship.vc.end();p1++) {
 			if (ship.PosRotation == true) {
-				if (p1->X == 10) 
-					p2->X=1;
-				else 
+				if (p1->X == 10) // delete
+					p2->X=1;// delete
+				else // delete
 					p2->X = p1->X + 1;
 			}
-			else {
+			else {// if PosRotation == false
 				if (p1->X == 11) {
 					p1->X = 1;
 					p2->X = 1;
@@ -187,8 +189,9 @@ void Change_Max_X(Ship& ship) {
 	}
 }
 
-
 void Change_Min_X(Ship& ship) {
+	if (ship.vc.begin()->X == 1)
+		return;
 	if (ship.vc.begin()->X > 1)
 		ship.vc.begin()->X -= 1;
 	else
@@ -204,7 +207,7 @@ void Change_Min_X(Ship& ship) {
 			else
 				p2->X = p1->X + 1;
 		}
-		else {
+		else {// if PosRotation == false
 			if (p1->X == 11) {
 				p1->X = 1;
 				p2->X = 1;
@@ -218,37 +221,101 @@ void Change_Min_X(Ship& ship) {
 	}
 	
 }
-void Change_Max_Y(Ship& ship, int num = 0) {
-	int x = (ship.vc).begin()->X ;
-	int y = (ship.vc).begin()->Y + num;
-	for (auto& i : ship.vc) {
-		i.X = x;
-		i.Y = y;
-		y++;
+
+void Change_Max_Y(Ship& ship) {
+	if (ship.vc.rbegin()->Y == 10)
+		return;
+	if (ship.vc.begin()->Y < 10) 
+		ship.vc.begin()->Y += 1; 
+	if (ship.vc.capacity() == 1) 
+		return; 
+	std::vector<COORD>::iterator p2 = ship.vc.begin(); 
+	p2++; 
+	for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) {
+		if (ship.PosRotation == true) {
+			p2->Y = p1->Y;
+		}
+		else {// if PosRotation == false
+
+		}
+		p2++; 
+		if (p2 == ship.vc.end()) 
+			break; 
 	}
-	
 }
-void Change_Min_Y(Ship& ship, int num = 0) {
-	int x = (ship.vc).begin()->X;
-	int y = (ship.vc).begin()->Y - num;
-	for (auto& i : ship.vc) {
-		i.X = x;
-		i.Y = y;
-		y--;
+void Change_Min_Y(Ship& ship) {
+	if (ship.vc.rbegin()->Y == 1)
+		return;
+	if (ship.vc.begin()->Y > 1)
+		ship.vc.begin()->Y -= 1;
+	if (ship.vc.capacity() == 1)
+		return;
+	std::vector<COORD>::iterator p2 = ship.vc.begin(); 
+	p2++; 
+	for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) { 
+		if (ship.PosRotation == true) { 
+			p2->Y = p1->Y; 
+		}
+		else {// if PosRotation == false
+
+		}
+		p2++; 
+		if (p2 == ship.vc.end()) 
+			break;
 	}
-	
 }
 
+void Change_PosRotation(Ship& ship) {
+	if (ship.PosRotation = true)
+		ship.PosRotation = false;
+	else
+		ship.PosRotation = true;
+}
+void Change_Rotation(Ship& ship) {
+	if (ship.vc.capacity() == 1)
+		return;
+	std::vector<COORD>::iterator p2 = ship.vc.begin(); 
+	p2++; 
+	Ship shiptmp = ship;
+	if (ship.PosRotation = false){
+		for (auto p1 = shiptmp.vc.begin(); p1 != shiptmp.vc.end(); p1++) {
+			p2->X = p1->X;
+			p2->Y = p1->Y + 1;
+			p2++; 
+			if (p2 == shiptmp.vc.end())
+				break;
+		}
+		if (shiptmp.vc.rbegin()->Y > 10)
+			return;
+		else
+			ship = shiptmp;
+	}
+	else {
+		for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) {
+			p2->X = p1->X + 1;
+			p2->Y = p1->Y;
+			p2++;
+			if (p2 == ship.vc.end())
+				break;
+		}
+		if (shiptmp.vc.rbegin()->X > 10)
+			return;
+		else
+			ship = shiptmp; 
+	}
+		
+
+}
 
 bool Input_Button(Ship& ship) {
 	std::cin.clear();
 	char ch = _getch();
 	switch (ch) {
-	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship, 1);  return false; break;
-	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship, 1);  return false; break;
+	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship);  return false; break;
+	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship);  return false; break;
 	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship);  return false; break;
 	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
-	//case VK_TAB:  return false; break;
+	case'\t':GrShow_Point::GrCleanPoint(ship); Change_PosRotation(ship); Change_Rotation(ship); return false; break;
 	//case VK_RETURN:return true; break;
 	default:return true;
 		break;
@@ -266,7 +333,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 	int Check_Plain[12][12] = { 0 };
 	for (int i = 1; i <= 4; i++) {
 		CreateNewPoint(1); 
-		Ship shipTmp(1);
+		Ship shipTmp(3);
 		bool CheckBorder=true;
 		do {
 			shipTmp.SetData();

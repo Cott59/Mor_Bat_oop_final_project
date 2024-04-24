@@ -11,6 +11,7 @@ struct point_ship {
 class Ship {
 public:
 	Ship(int);
+	// конструктор копирования сделать
 	std::vector<COORD> vc;
 	void SetData();
 	bool PosRotation = true;
