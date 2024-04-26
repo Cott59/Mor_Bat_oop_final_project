@@ -162,30 +162,18 @@ void Change_Max_X(Ship& ship) {
 		return;
 	if(ship.vc.begin()->X<10)
 		ship.vc.begin()->X += 1;
-	else
-		ship.vc.begin()->X = 1;
 	if (ship.vc.capacity() == 1)
 		return;
 	std::vector<COORD>::iterator p2 = ship.vc.begin();
 	p2++;
-	for ( auto p1 = ship.vc.begin(); p1 != ship.vc.end();p1++) {
+	for ( auto p1 = ship.vc.begin(); p2 != ship.vc.end();p1++) {
 			if (ship.PosRotation == true) {
-				if (p1->X == 10) // delete
-					p2->X=1;// delete
-				else // delete
-					p2->X = p1->X + 1;
+				p2->X = p1->X + 1;
 			}
 			else {// if PosRotation == false
-				if (p1->X == 11) {
-					p1->X = 1;
-					p2->X = 1;
-				}
-				else
-					p2->X = p1->X;
+				p2->X = p1->X;
 			}
 			p2++;
-			if (p2 == ship.vc.end())
-				break;
 	}
 }
 
@@ -194,32 +182,19 @@ void Change_Min_X(Ship& ship) {
 		return;
 	if (ship.vc.begin()->X > 1)
 		ship.vc.begin()->X -= 1;
-	else
-		ship.vc.begin()->X = 10;
 	if (ship.vc.capacity() == 1)
 		return;
 	std::vector<COORD>::iterator p2 = ship.vc.begin();
 	p2++;
-	for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) {
+	for (auto p1 = ship.vc.begin(); p2 != ship.vc.end(); p1++) {
 		if (ship.PosRotation == true) {
-			if (p1->X == 10)
-				p2->X = 1;
-			else
-				p2->X = p1->X + 1;
+			p2->X = p1->X + 1;
 		}
 		else {// if PosRotation == false
-			if (p1->X == 11) {
-				p1->X = 1;
-				p2->X = 1;
-			}
-			else
-				p2->X = p1->X;
+			p2->X = p1->X;
 		}
 		p2++;
-		if (p2 == ship.vc.end())
-			break;
 	}
-	
 }
 
 void Change_Max_Y(Ship& ship) {
@@ -231,20 +206,19 @@ void Change_Max_Y(Ship& ship) {
 		return; 
 	std::vector<COORD>::iterator p2 = ship.vc.begin(); 
 	p2++; 
-	for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) {
+	for (auto p1 = ship.vc.begin(); p2 != ship.vc.end(); p1++) {
 		if (ship.PosRotation == true) {
 			p2->Y = p1->Y;
 		}
 		else {// if PosRotation == false
-
+			p2->Y = p1->Y+1;
 		}
 		p2++; 
-		if (p2 == ship.vc.end()) 
-			break; 
 	}
 }
+
 void Change_Min_Y(Ship& ship) {
-	if (ship.vc.rbegin()->Y == 1)
+	if (ship.vc.begin()->Y == 1)
 		return;
 	if (ship.vc.begin()->Y > 1)
 		ship.vc.begin()->Y -= 1;
@@ -252,38 +226,37 @@ void Change_Min_Y(Ship& ship) {
 		return;
 	std::vector<COORD>::iterator p2 = ship.vc.begin(); 
 	p2++; 
-	for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) { 
+	for (auto p1 = ship.vc.begin(); p2 != ship.vc.end(); p1++) { 
 		if (ship.PosRotation == true) { 
 			p2->Y = p1->Y; 
 		}
 		else {// if PosRotation == false
-
+			p2->Y = p1->Y+1;
 		}
 		p2++; 
-		if (p2 == ship.vc.end()) 
-			break;
 	}
 }
 
 void Change_PosRotation(Ship& ship) {
-	if (ship.PosRotation = true)
+	if (ship.vc.begin()->X > 10 - ship.vc.capacity() + 1 || ship.vc.begin()->Y > 10 - ship.vc.capacity() + 1)
+		return;
+	if (ship.PosRotation == true)
 		ship.PosRotation = false;
 	else
 		ship.PosRotation = true;
 }
+
 void Change_Rotation(Ship& ship) {
 	if (ship.vc.capacity() == 1)
 		return;
-	std::vector<COORD>::iterator p2 = ship.vc.begin(); 
-	p2++; 
 	Ship shiptmp = ship;
-	if (ship.PosRotation = false){
-		for (auto p1 = shiptmp.vc.begin(); p1 != shiptmp.vc.end(); p1++) {
+	std::vector<COORD>::iterator p2 = shiptmp.vc.begin(); 
+	p2++; 
+	if (ship.PosRotation == false){
+		for (auto p1 = shiptmp.vc.begin(); p2 != shiptmp.vc.end(); p1++) {
 			p2->X = p1->X;
 			p2->Y = p1->Y + 1;
 			p2++; 
-			if (p2 == shiptmp.vc.end())
-				break;
 		}
 		if (shiptmp.vc.rbegin()->Y > 10)
 			return;
@@ -291,12 +264,10 @@ void Change_Rotation(Ship& ship) {
 			ship = shiptmp;
 	}
 	else {
-		for (auto p1 = ship.vc.begin(); p1 != ship.vc.end(); p1++) {
+		for (auto p1 = shiptmp.vc.begin(); p2 != shiptmp.vc.end(); p1++) {
 			p2->X = p1->X + 1;
 			p2->Y = p1->Y;
 			p2++;
-			if (p2 == ship.vc.end())
-				break;
 		}
 		if (shiptmp.vc.rbegin()->X > 10)
 			return;
@@ -316,8 +287,8 @@ bool Input_Button(Ship& ship) {
 	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship);  return false; break;
 	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
 	case'\t':GrShow_Point::GrCleanPoint(ship); Change_PosRotation(ship); Change_Rotation(ship); return false; break;
-	//case VK_RETURN:return true; break;
-	default:return true;
+	case '\r':return true; break;
+	default:return false;
 		break;
 
 	}
@@ -355,8 +326,10 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 					}
 			}
 			tmp =Input_Button(shipTmp);
-			if (tmp == 1)
+			if (tmp == 1) {
 				SetPoint(shipTmp, Check_Plain);
+				// создание корабля и запись в него данных из shipTmp
+			}
 		} while (tmp == false);
 
 	}
