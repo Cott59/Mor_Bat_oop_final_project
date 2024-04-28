@@ -7,6 +7,7 @@
 #include<Windows.h>
 #include<algorithm>
 #include<dos.h> 
+#include<memory>
 
 extern int X_;
 extern int Y_;
@@ -294,6 +295,18 @@ bool Input_Button(Ship& ship) {
 	}
 }
 
+Kater* Create_Player_Ship(Ship& ship) {
+
+	auto U_Kt = std::unique_ptr<Kater> (new Kater());
+	U_Kt->
+	return U_Kt;
+}
+
+void foo(Ship& ship) {
+
+}
+
+
 void Ship_Placement_Logic::Set_Ships_Placement()
 {
 	Grafic_Ship_Placement GrShipPlac(*(player_tmp));
@@ -329,6 +342,8 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 			if (tmp == 1) {
 				SetPoint(shipTmp, Check_Plain);
 				// создание корабля и запись в него данных из shipTmp
+				
+
 			}
 		} while (tmp == false);
 

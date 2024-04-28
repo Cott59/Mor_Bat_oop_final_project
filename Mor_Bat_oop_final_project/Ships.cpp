@@ -14,6 +14,11 @@ Kater::~Kater()
 {
 }
 
+void Kater::Get_Point(point_ship& p_ship)
+{
+	Points.push_back(p_ship);
+}
+
 //void Kater::ShowShip()
 //{
 //	DataInput::gotoxy(1, 1); std::cout << 'X';

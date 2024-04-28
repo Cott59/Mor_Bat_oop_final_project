@@ -2,6 +2,7 @@
 #include<Windows.h>
 #include<vector>
 
+
 struct point_ship {
 	int X;
 	int Y;
@@ -11,29 +12,30 @@ struct point_ship {
 class Ship {
 public:
 	Ship(int);
-	
 	std::vector<COORD> vc;
 	void SetData();
 	bool PosRotation = true;
 };
 
-class Kater  //однопалубный
+class Kater //однопалубный
 {
 private:
+	std::vector<point_ship> Points;
 public:
 	Kater();
 	~Kater();
-	std::vector<point_ship> Points;
-	//void ShowShip() override;
+	void Get_Point(point_ship& p_ship);
+	
 };
 
 class Destroyer    //двухпалубный
 {
 private:
+	std::vector<point_ship> Points;
 public:
 	Destroyer();
-	std::vector<point_ship> Points;
-	//void ShowShip()override;
+	
+	
 };
 
 //class Cruiser :public Ship  //трёхпалубный

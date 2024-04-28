@@ -99,6 +99,12 @@ void Player::Set_Base_Point(int X, int Y) {
 	Base_Point.Y = Y;
 }
 
+void Player::Set_Ship(Kater* kat)
+{
+	Ship_Player.push_back(kat);
+
+}
+
 
 Create_Players::Create_Players(){}
 

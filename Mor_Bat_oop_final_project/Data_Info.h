@@ -3,7 +3,7 @@
 #include<vector>
 #include"Ships.h"
 #include<string>
-
+#include<memory>
 
 
 
@@ -40,9 +40,10 @@ public:
 	std::string Get_Name() { return Name; }
 	bool Get_Parc() { return Parc; }
 	bool Get_Attac() { return Attac; }
+	void Set_Ship(Kater*);
 private:
 	
-	std::vector<Ship>Ship_Player;
+	std::vector<std::unique_ptr<Kater>>Ship_Player;
 	bool Parc;
 	bool Attac;
 	std::string Name;
