@@ -47,7 +47,8 @@ int main()
 	
 	Ship_Placement_Logic SPLogic1(cp.Get_PL1());
 	SPLogic1.Set_Ships_Placement();
-	
+	Ship_Placement_Logic SPLogic2(cp.Get_PL2());
+	SPLogic2.Set_Ships_Placement();
 	
 
 

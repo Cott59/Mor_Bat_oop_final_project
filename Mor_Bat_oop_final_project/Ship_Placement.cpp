@@ -9,6 +9,10 @@
 #include<dos.h> 
 #include<memory>
 
+extern HANDLE console;
+extern COORD CursorPosition;
+
+
 extern int X_;
 extern int Y_;
 extern bool PARC_PL1_;// расстановка кораблей:
@@ -16,6 +20,13 @@ extern bool PARC_PL2_;// true 1 - автоматическая, false 0 - ручная
 extern bool ATTAC_PL1_; //ввод координат для атаки
 extern bool ATTAC_PL2_; //true - автоматическая, false - ручной
 
+int Check_Plain[12][12] = { 0 };
+void Clean_Check_Plain() {
+	for (int i = 0; i < 12; i++)
+		for (int j = 0; j < 12; j++)
+			Check_Plain[i][j] = 0;
+
+}
 
 void GrShow_Point::GrShowPoint(Ship& ship, COORD BPoint)
 {
@@ -87,31 +98,48 @@ void Grafic_Ship_Placement::Hedder_Pl()
 }
 
 int CheckPoint(COORD& coordata, int arr[][12]) {
-	int* pp1 = &arr[coordata.X - 1][coordata.Y - 1];
-	int* pp2 = &arr[coordata.X-1][coordata.Y];
-	int* pp3 = &arr[coordata.X - 1][coordata.Y + 1];
-	for (int i = 1; i <= 3; i++) {
-		if (*pp1 == 1) return 1;
-		if (*pp2 == 1) return 1;
-		if (*pp3 == 1) return 1;
-		pp1++; pp2++; pp3++;
-	}
-	
-	return 0;
+	if(arr[coordata.X - 1][coordata.Y - 1] == 1 )
+		return 1;
+	if (arr[coordata.X - 1][coordata.Y] == 1)
+		return 1;
+	if (arr[coordata.X - 1][coordata.Y + 1] == 1)
+		return 1;
+	if (arr[coordata.X][coordata.Y - 1] == 1)
+		return 1;
+	if (arr[coordata.X][coordata.Y] == 1)
+		return 1;
+	if (arr[coordata.X][coordata.Y + 1] == 1)
+		return 1;
+	if (arr[coordata.X + 1][coordata.Y - 1] == 1)
+		return 1;
+	if (arr[coordata.X + 1][coordata.Y] == 1)
+		return 1;
+	if (arr[coordata.X + 1][coordata.Y + 1] == 1)
+		return 1;
+	return 0; 
 }
 
 int CheckPointToPlain(Ship& ship, int arr[][12]) {
-	int check = 1;
-	std::for_each(ship.vc.begin(), ship.vc.end(), [&arr,&check](COORD& coorduse) {
-		check=CheckPoint(coorduse, arr); 
-		if (check == 1) return 1;
+	int check = 0;
+	std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coorduse) {
+		if (CheckPoint(coorduse, arr) == 1) {
+			check = 1;
+			ship.Bad = true;
+			//return check;
+		}
 		}); 
-	return 0;
+	if (check == 0)
+		ship.Bad = false;
+	return check;
 }
 
 bool CheckOnePoint(Ship& ship, int arr[][12]) {
-	if (arr[(ship.vc).begin()->X][(ship.vc).begin()->Y] == 1) return true;
-	else return false;
+	bool check=false;
+	std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coorduse){
+		if (arr[coorduse.X][coorduse.Y] == 1)
+			check = true; 
+		});
+	return check;
 }
 
 void SetPoint(Ship& ship, int arr[][12]) {
@@ -251,15 +279,16 @@ void Change_Rotation(Ship& ship) {
 	if (ship.vc.capacity() == 1)
 		return;
 	Ship shiptmp = ship;
+	Change_PosRotation(shiptmp);
 	std::vector<COORD>::iterator p2 = shiptmp.vc.begin(); 
 	p2++; 
-	if (ship.PosRotation == false){
+	if (shiptmp.PosRotation == false){
 		for (auto p1 = shiptmp.vc.begin(); p2 != shiptmp.vc.end(); p1++) {
 			p2->X = p1->X;
 			p2->Y = p1->Y + 1;
 			p2++; 
 		}
-		if (shiptmp.vc.rbegin()->Y > 10)
+		if (shiptmp.vc.rbegin()->Y > 10 || CheckOnePoint(shiptmp, Check_Plain) == true)
 			return;
 		else
 			ship = shiptmp;
@@ -270,7 +299,7 @@ void Change_Rotation(Ship& ship) {
 			p2->Y = p1->Y;
 			p2++;
 		}
-		if (shiptmp.vc.rbegin()->X > 10)
+		if (shiptmp.vc.rbegin()->X > 10|| CheckOnePoint(shiptmp, Check_Plain)==true)
 			return;
 		else
 			ship = shiptmp; 
@@ -279,76 +308,105 @@ void Change_Rotation(Ship& ship) {
 
 }
 
+//bool Input_Button(Ship& ship) {
+//	std::cin.clear();
+//	char ch = _getch();
+//	switch (ch) {
+//	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship);  return false; break;
+//	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship);  return false; break;
+//	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship);  return false; break;
+//	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
+//	case'\t':GrShow_Point::GrCleanPoint(ship); Change_PosRotation(ship); Change_Rotation(ship); return false; break;
+//	case '\r':return true; break;
+//	default:return false;
+//		break;
+//
+//	}
+//}
+
 bool Input_Button(Ship& ship) {
 	std::cin.clear();
 	char ch = _getch();
-	switch (ch) {
-	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship);  return false; break;
-	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship);  return false; break;
-	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship);  return false; break;
-	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
-	case'\t':GrShow_Point::GrCleanPoint(ship); Change_PosRotation(ship); Change_Rotation(ship); return false; break;
-	case '\r':return true; break;
-	default:return false;
-		break;
+	if (ch == '\r' && ship.Bad == false)
+		return true;
+	else {
+		if(CheckOnePoint(ship, Check_Plain) != true)
+			GrShow_Point::GrCleanPoint(ship);
+		switch (ch) {
+		case 's': Change_Max_Y(ship);  return false; break;
+		case 'w': Change_Min_Y(ship);  return false; break;
+		case 'a': Change_Min_X(ship);  return false; break;
+		case 'd': Change_Max_X(ship);  return false; break;
+		case'\t': Change_Rotation(ship); return false; break;
 
+		default:return false;
+			break;
+
+		}
 	}
 }
 
-Kater* Create_Player_Ship(Ship& ship) {
+//std::unique_ptr<Kater> Create_Player_Ship(Ship& ship) {
+//
+//	auto U_Kt = std::unique_ptr<Kater> (new Kater());
+//	U_Kt;
+//	return U_Kt; 
+//}
 
-	auto U_Kt = std::unique_ptr<Kater> (new Kater());
-	U_Kt->
-	return U_Kt;
-}
 
-void foo(Ship& ship) {
-
-}
 
 
 void Ship_Placement_Logic::Set_Ships_Placement()
 {
-	Grafic_Ship_Placement GrShipPlac(*(player_tmp));
+	Clean_Check_Plain();
+	Grafic_Ship_Placement GrShipPlac(*(player_tmp)); 
 	GrShipPlac.Border_1();
 	GrShipPlac.Border_2();
 	GrShipPlac.Plean();
 	GrShipPlac.Hedder_Pl();
-	int Check_Plain[12][12] = { 0 };
-	for (int i = 1; i <= 4; i++) {
-		CreateNewPoint(1); 
-		Ship shipTmp(3);
-		bool CheckBorder=true;
-		do {
-			shipTmp.SetData();
-			CheckBorder = InstalShip(shipTmp);
-			if(CheckBorder==1)
-				AutoCreatePoint();
-		} while (CheckBorder==true);
-		bool Position = true;
-		bool tmp = true;
-		do {
-			if (CheckOnePoint(shipTmp, Check_Plain) == 0) {
-				bool tmp1 = CheckPointToPlain(shipTmp, Check_Plain);
-				if (tmp1 == 1) {
-					std::cout << "error" << '\n';
-				}
-				else
-					if (tmp1 == 0) {
+	int countersShip = 1;//количество кораблей
+	int j = 4;//количество палуб
+	while (countersShip <= 4)
+	{
+		for (int i = 1; i <= countersShip; i++) {
+			CreateNewPoint(1);
+			Ship shipTmp(j);
+			bool CheckBorder = true;
+			do {
+				shipTmp.SetData();
+				CheckBorder = InstalShip(shipTmp);
+				if (CheckBorder == 1)
+					AutoCreatePoint();
+			} while (CheckBorder == true);
+			bool Position = true;
+			bool tmp = true;
+			do {
+				if (CheckOnePoint(shipTmp, Check_Plain) == 0) {
+					bool tmp1 = CheckPointToPlain(shipTmp, Check_Plain);
+					if (tmp1 == true) {
+						SetConsoleTextAttribute(console, 12);
 						GrShow_Point::GrShowPoint(shipTmp);
+						SetConsoleTextAttribute(console, 15);
 					}
-			}
-			tmp =Input_Button(shipTmp);
-			if (tmp == 1) {
-				SetPoint(shipTmp, Check_Plain);
-				// создание корабля и запись в него данных из shipTmp
-				
+					else
+						if (tmp1 == false) {
+							GrShow_Point::GrShowPoint(shipTmp);
+						}
+				}
+				tmp = Input_Button(shipTmp);
+				if (tmp == 1) {
+					SetPoint(shipTmp, Check_Plain);
+					// создание корабля и запись в него данных из shipTmp
 
-			}
-		} while (tmp == false);
+
+				}
+			} while (tmp == false);
+
+		}
+		countersShip++;
+		j--;
 
 	}
-
 
 }
 
