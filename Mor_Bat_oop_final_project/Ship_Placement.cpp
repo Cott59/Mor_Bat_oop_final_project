@@ -308,21 +308,6 @@ void Change_Rotation(Ship& ship) {
 
 }
 
-//bool Input_Button(Ship& ship) {
-//	std::cin.clear();
-//	char ch = _getch();
-//	switch (ch) {
-//	case 's':GrShow_Point::GrCleanPoint(ship); Change_Max_Y(ship);  return false; break;
-//	case 'w':GrShow_Point::GrCleanPoint(ship); Change_Min_Y(ship);  return false; break;
-//	case 'a':GrShow_Point::GrCleanPoint(ship); Change_Min_X(ship);  return false; break;
-//	case 'd':GrShow_Point::GrCleanPoint(ship); Change_Max_X(ship);  return false; break;
-//	case'\t':GrShow_Point::GrCleanPoint(ship); Change_PosRotation(ship); Change_Rotation(ship); return false; break;
-//	case '\r':return true; break;
-//	default:return false;
-//		break;
-//
-//	}
-//}
 
 bool Input_Button(Ship& ship) {
 	std::cin.clear();
@@ -346,13 +331,34 @@ bool Input_Button(Ship& ship) {
 	}
 }
 
-//std::unique_ptr<Kater> Create_Player_Ship(Ship& ship) {
-//
-//	auto U_Kt = std::unique_ptr<Kater> (new Kater());
-//	U_Kt;
-//	return U_Kt; 
-//}
 
+
+std::unique_ptr<ShipPlayer> Create_Player_Ship(Ship& ship) {
+
+	auto U_Kt = std::unique_ptr<ShipPlayer> (new ShipPlayer(ship.vc.capacity()));
+
+	std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordUse) {
+		point_ship temp;
+		temp.X = coordUse.X;
+		temp.Y = coordUse.Y;
+		U_Kt->Set_Point(temp);
+
+		}); 
+	return U_Kt; 
+}
+
+ShipPlayer* Create_Player_Ship2(Ship& ship) {
+
+	ShipPlayer* RR = new ShipPlayer(ship.vc.capacity());
+	std::for_each(ship.vc.begin(), ship.vc.end(), [&](COORD& coordUse) { 
+		point_ship temp; 
+		temp.X = coordUse.X; 
+		temp.Y = coordUse.Y; 
+		RR->Set_Point(temp); 
+
+	});
+	return RR;
+}
 
 
 
@@ -397,7 +403,9 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 				if (tmp == 1) {
 					SetPoint(shipTmp, Check_Plain);
 					// создание корабля и запись в него данных из shipTmp
-
+					//std::unique_ptr<ShipPlayer> Upt= Create_Player_Ship(shipTmp);
+					//player_tmp->Instal_Uptr_to_vector(Create_Player_Ship(shipTmp));
+					player_tmp->Instal_to_vector(Create_Player_Ship2(shipTmp));
 
 				}
 			} while (tmp == false);
@@ -410,89 +418,10 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 
 }
 
-////bool battleships::CreatePosition()
-////{
-////	int x = 0, y = 0;
-////	CheckPoint(x, y);
-////	
-////	while (1) {
-////
 
-	/*	P1.X = x;
-		P1.Y = y;
-		if (Position == true) {
-			P2.X = x + 1, P3.X = x + 2, P4.X = x + 3;
-			P2.Y = P3.Y = P4.Y = y;
-		}
-		else {
-			P2.Y = y + 1, P3.Y = y + 2, P4.Y = y + 3;
-			P2.X = P3.X = P4.X = x;
-		}*/
 
-////
-////		Ship();
-////		//system("cls");
-////		if (_kbhit()) {
-////			char ch = _getch();
-////			if (ch == 80)
-////				y++;
-////			else
-////				if (ch == 72)
-////					y--;
-////				else
-////					if (ch == 75)
-////						x--;
-////					else
-////						if (ch == 77)
-////							x++;
-////						else
-////							if (ch == 8)
-////								Position = 1;
-////							else
-////								if (ch == 28)
-////									exit(1);
-////
-////		}
-////
-////		Sleep(50);
-////		system("cls");
-////
-////	}
-////
-////
-// 
-////
-////
-////
-////	return 1;
-// //char ch = _getch();
-	//if (_kbhit()) {
-	//	
-	//	if (ch == 80) {
-	//		Change_Max_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//	}
-	//	else
-	//		if (ch == 72) {
-	//			Change_Min_Y(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//		}
-	//		else
-	//			if (ch == 75) {
-	//				Change_Min_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//			}
-	//			else
-	//				if (ch == 77) {
-	//					Change_Max_X(ship, 1); GrShow_Point::GrCleanPoint(ship); return true;
-	//				}
-	//				else
-	//					if (ch == 8) {
-	//					}
-	//					else
-	//						if (ch == 13 /*28*/)
-	//							return false;
-	//	
-	//}
-// 
-////}
+
+
 
 
 

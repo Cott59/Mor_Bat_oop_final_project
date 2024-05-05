@@ -6,30 +6,21 @@
 extern int X_;
 extern int Y_;
 
-Kater::Kater()
+
+
+ShipPlayer::ShipPlayer(int num)
+{
+	shippl.reserve(num);
+}
+
+ShipPlayer::~ShipPlayer()
 {
 }
 
-Kater::~Kater()
+void ShipPlayer::Set_Point(point_ship& p_ship)
 {
+	shippl.push_back(p_ship);
 }
-
-void Kater::Get_Point(point_ship& p_ship)
-{
-	Points.push_back(p_ship);
-}
-
-//void Kater::ShowShip()
-//{
-//	DataInput::gotoxy(1, 1); std::cout << 'X';
-//}
-//
-//void Destroyer::ShowShip()
-//{
-//	DataInput::gotoxy(1, 1); std::cout << 'X';
-//	DataInput::gotoxy(2, 1); std::cout << 'X';
-//
-//}
 
 Ship::Ship(int num)
 {

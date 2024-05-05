@@ -5,8 +5,6 @@
 #include<string>
 #include<memory>
 
-
-
 class DataInput {
 public:
 	static void gotoxy(int x, int y ); 
@@ -35,31 +33,33 @@ public:
 	Player(bool parc, bool attac, std::string name);
 	~Player();
 	COORD Base_Point{ 0,0 };
-	void Set_Base_Point(int, int);
 	COORD Get_Base_Point() { return Base_Point; };
 	std::string Get_Name() { return Name; }
 	bool Get_Parc() { return Parc; }
 	bool Get_Attac() { return Attac; }
-	//void Set_Ship(Kater*);
+	void Set_Base_Point(int, int);
+	//void Instal_Uptr_to_vector(std::unique_ptr<ShipPlayer>);
+	void Instal_to_vector(ShipPlayer*);
+
 private:
 	
-	//std::vector<std::unique_ptr<Kater>>Ship_Player;
+	//std::vector<std::unique_ptr<ShipPlayer>>ShipPl;
+	std::vector<ShipPlayer*>ShipPl;
 	bool Parc;
 	bool Attac;
 	std::string Name;
 };
 
 
-
 class Create_Players
 {
 public:
-	Create_Players();
+	Create_Players() {};
 	Player* Get_PL1() { return PL1; }
 	Player* Get_PL2() { return PL2; }
-	void Create_Player();
+	void CreatePlayer();
 private:
-	int n = 2;
+	
 	Player* PL1=nullptr;
 	Player* PL2=nullptr;
 };

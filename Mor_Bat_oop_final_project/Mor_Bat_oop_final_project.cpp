@@ -42,13 +42,13 @@ int main()
 	//menu.Set_Data_Players();
 	//=======================================
 	Create_Players cp;
-	cp.Create_Player();
+	cp.CreatePlayer();
 	//=======================================
 	
 	Ship_Placement_Logic SPLogic1(cp.Get_PL1());
 	SPLogic1.Set_Ships_Placement();
-	Ship_Placement_Logic SPLogic2(cp.Get_PL2());
-	SPLogic2.Set_Ships_Placement();
+	//Ship_Placement_Logic SPLogic2(cp.Get_PL2());
+	//SPLogic2.Set_Ships_Placement();
 	
 
 

@@ -3,7 +3,7 @@
 #include <iostream>
 #include<conio.h>
 #include"Includes.h"
-
+#include<memory>
 extern HANDLE console;
 extern COORD CursorPosition;
 extern bool PARC_PL1_;// расстановка кораблей:
@@ -11,7 +11,7 @@ extern bool PARC_PL2_;// true 1 - автоматическа€, false 0 - ручна€
 extern bool ATTAC_PL1_; //ввод координат дл€ атаки
 extern bool ATTAC_PL2_; //true - автоматическа€, false - ручной
 
-int Set_Parametr();
+int Set_Parametr();//объ€вление функции
 
  void DataInput::gotoxy(int x, int y)
 {
@@ -19,8 +19,6 @@ int Set_Parametr();
 	 CursorPosition.Y = (short)y;
 	SetConsoleCursorPosition(console, CursorPosition);
 }
-
- 
 
 Menu::Menu(){
 	
@@ -82,6 +80,7 @@ void Grafic_Menu::Set_Player2() {
 Player::Player(bool parc, bool attac, std::string name)
 {
 	Parc = parc; Attac = attac; Name = name;
+	//ShipPl.reserve(10);
 }
 
 Player::~Player()
@@ -99,16 +98,20 @@ void Player::Set_Base_Point(int X, int Y) {
 	Base_Point.Y = Y;
 }
 
-//void Player::Set_Ship(Kater* kat)
+void Player::Instal_to_vector(ShipPlayer* ptr)
+{
+	ShipPl.push_back(ptr);
+}
+
+//void Player::Instal_Uptr_to_vector(std::unique_ptr<ShipPlayer> U_ptr)
 //{
-//	Ship_Player.push_back(kat);
-//
+//	ShipPl.push_back(U_ptr);
 //}
 
 
-Create_Players::Create_Players(){}
 
-void Create_Players::Create_Player() {
+void Create_Players::CreatePlayer() {
 	PL1 = new Player(PARC_PL1_, ATTAC_PL1_, "Player 1");
 	PL2 = new Player(PARC_PL2_, ATTAC_PL2_, "Player 2");
 }
+
