@@ -2,11 +2,9 @@
 #include <iostream>
 #include"Data_Info.h"
 #include"Includes.h"
-
+#include<vector>
 extern int X_;
 extern int Y_;
-
-
 
 ShipPlayer::ShipPlayer(int num)
 {
@@ -20,6 +18,12 @@ ShipPlayer::~ShipPlayer()
 void ShipPlayer::Set_Point(point_ship& p_ship)
 {
 	shippl.push_back(p_ship);
+}
+
+point_ship ShipPlayer::Get_Point_shippl(int num)
+{
+	auto Point= shippl.operator[](num);
+	return Point;
 }
 
 Ship::Ship(int num)

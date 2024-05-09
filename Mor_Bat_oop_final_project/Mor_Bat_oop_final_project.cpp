@@ -2,6 +2,7 @@
 #include<iostream>
 #include<Windows.h>
 #include"Data_Info.h"
+#include "Ships.h"
 #include"Gameplay.h"
 #include"Ship_Placement.h"
 #include"Includes.h"
@@ -11,7 +12,7 @@ COORD CursorPosition = {};
 
 bool PARC_PL1_ = false;// расстановка кораблей:
 bool PARC_PL2_ = false;// true 1 - автоматическая, false 0 - ручная
-bool ATTAC_PL1_ = true; //ввод координат для атаки
+bool ATTAC_PL1_ = false; //ввод координат для атаки
 bool ATTAC_PL2_ = false; //true - автоматическая, false - ручной
 
 int X_=1;
@@ -45,33 +46,18 @@ int main()
 	cp.CreatePlayer();
 	//=======================================
 	
-	Ship_Placement_Logic SPLogic1(cp.Get_PL1());
+	/*Ship_Placement_Logic SPLogic1(cp.Get_PL1());
 	SPLogic1.Set_Ships_Placement();
-	//Ship_Placement_Logic SPLogic2(cp.Get_PL2());
-	//SPLogic2.Set_Ships_Placement();
+	Ship_Placement_Logic SPLogic2(cp.Get_PL2());
+	SPLogic2.Set_Ships_Placement();*/
 	
-
-
-
-
-
-
-
 	//================================================
 
-	/*int a = 15;
-	int b = 49;
-	
-	Grafic_Gameplay::ShowBorder();
-	Grafic_Gameplay::ShowBorderPlayer(8, 7);
-	Grafic_Gameplay::ShowBorderPlayer(42, 7);
-	Grafic_Gameplay::ShowHedderPlayer1(a, 3);
-	Grafic_Gameplay::ShowHedderPlayer2(b, 3);
-	_getch();
-	std::swap(a, b);
-	Grafic_Gameplay::ShowHedderPlayer1(a, 3);
-	Grafic_Gameplay::ShowHedderPlayer2(b, 3);*/
-	
+
+	Logic_Gameplay LogicGP(cp.Get_PL1(), cp.Get_PL2());
+	LogicGP.Play_Game();
+
+
 
 	_getch();
     return 0;

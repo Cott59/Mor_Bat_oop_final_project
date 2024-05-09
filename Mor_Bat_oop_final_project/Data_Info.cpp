@@ -1,9 +1,11 @@
 #include "Data_Info.h"
+#include"Ships.h"
 #include<Windows.h>
 #include <iostream>
 #include<conio.h>
 #include"Includes.h"
 #include<memory>
+
 extern HANDLE console;
 extern COORD CursorPosition;
 extern bool PARC_PL1_;// расстановка кораблей:

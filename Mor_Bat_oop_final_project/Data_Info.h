@@ -1,9 +1,11 @@
 #pragma once
+#include"Ships.h"
 #include<Windows.h>
 #include<vector>
-#include"Ships.h"
 #include<string>
 #include<memory>
+
+class ShipPlayer;
 
 class DataInput {
 public:
@@ -39,12 +41,13 @@ public:
 	bool Get_Attac() { return Attac; }
 	void Set_Base_Point(int, int);
 	//void Instal_Uptr_to_vector(std::unique_ptr<ShipPlayer>);
-	void Instal_to_vector(ShipPlayer*);
-
+	void Instal_to_vector(ShipPlayer* ptr);
+	friend void OpenShowShip(Player* player);
+	friend void ClosedShowShip(Player* player); 
 private:
 	
 	//std::vector<std::unique_ptr<ShipPlayer>>ShipPl;
-	std::vector<ShipPlayer*>ShipPl;
+	std::vector<ShipPlayer*>ShipPl; 
 	bool Parc;
 	bool Attac;
 	std::string Name;

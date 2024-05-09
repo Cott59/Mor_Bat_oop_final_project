@@ -405,7 +405,7 @@ void Ship_Placement_Logic::Set_Ships_Placement()
 					// создание корабля и запись в него данных из shipTmp
 					//std::unique_ptr<ShipPlayer> Upt= Create_Player_Ship(shipTmp);
 					//player_tmp->Instal_Uptr_to_vector(Create_Player_Ship(shipTmp));
-					player_tmp->Instal_to_vector(Create_Player_Ship2(shipTmp));
+					player_tmp->Instal_to_vector(Create_Player_Ship2(shipTmp)); 
 
 				}
 			} while (tmp == false);
