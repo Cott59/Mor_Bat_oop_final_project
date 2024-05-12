@@ -6,6 +6,8 @@
 #include <vector>
 #include <algorithm>
 #include <Windows.h>
+#include <string>
+
 extern int X_;
 extern int Y_;
 extern HANDLE console;
@@ -157,12 +159,75 @@ void AutoAttac()
 {
 }
 
+bool Set_X_Coord(int num) {
+	switch (num)
+	{
+	case 1: X_ = 1; return true; break;
+	case 2: X_ = 2; return true; break;
+	case 3: X_ = 3; return true; break;
+	case 4: X_ = 4; return true; break;
+	case 5: X_ = 5; return true; break;
+	case 6: X_ = 6; return true; break;
+	case 7: X_ = 7; return true; break;
+	case 8: X_ = 8; return true; break;
+	case 9: X_ = 9; return true; break;
+	case 10: X_ = 10; return true; break;
+	default:return false;
+		break;
+	}
+}
+bool Set_Y_Coord(char ch) {
+	char ch1 = ch;
+	switch (ch1)
+	{
+	case 'A':case 'a': Y_ = 1; return true; break;
+	case 'B':case 'b': Y_ = 2; return true; break;
+	case 'C':case 'c': Y_ = 3; return true; break;
+	case 'D':case 'd': Y_ = 4; return true; break;
+	case 'E':case 'e': Y_ = 5; return true; break;
+	case 'F':case 'f': Y_ = 6; return true; break;
+	case 'G':case 'g': Y_ = 7; return true; break;
+	case 'H':case 'h': Y_ = 8; return true; break;
+	case 'I':case 'i': Y_ = 9; return true; break;
+	case 'J':case 'j': Y_ = 10; return true; break;
+	default:return false;
+		break;
+	}
+}
+
+bool foo() {
+	char buf2;
+	int buf1;
+	try
+	{
+		DataInput::gotoxy(5, 22); std::cout << "¬ведите координату удара ";
+		DataInput::gotoxy(30, 22); std::cout << " X:";
+		std::cin >> buf1;
+		DataInput::gotoxy(35, 22); std::cout << " Y:";
+		std::cin >> buf2;
+
+	}
+	catch (const std::exception&)
+	{
+		DataInput::gotoxy(30, 25); std::cout << "errar";
+	}
+	
+	if (Set_X_Coord(buf1) == true && Set_Y_Coord(buf2) == true)
+		return true;
+	else {
+		DataInput::gotoxy(30, 22); std::cout << "                   ";
+		return foo();
+	}
+}
+
 void PlayerAttac(Player* player)
 {
-	int Ch1, Ch2;
 	DataInput::gotoxy(3, 21); std::cout << player->Get_Name();
-	DataInput::gotoxy(5 , 22); std::cout << "¬ведите координату удара: ";
-	std::cin >> Ch1 >> Ch2;
+	if(foo()==true)
+		DataInput::gotoxy(30, 25); std::cout << " ok";
+	
+	
+
 
 }
 
