@@ -18,8 +18,12 @@ class Logic_Gameplay
 public:
 	Logic_Gameplay(Player* pl1, Player* pl2);
 	void Play_Game();
-
+	
+	
+	
 private:
+	//friend void SetCoordAtac(Player* player);
+	void SetDataLog(Player* player);
 	Player* PL1=nullptr;
 	Player* PL2 = nullptr;
 	std::vector<point_ship> Log_attac_pl1;

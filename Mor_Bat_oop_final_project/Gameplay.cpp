@@ -7,11 +7,16 @@
 #include <algorithm>
 #include <Windows.h>
 #include <string>
+#include <ctime>
 
 extern int X_;
 extern int Y_;
 extern HANDLE console;
 extern COORD CursorPosition;
+//extern bool PARC_PL1_;// расстановка кораблей:
+//extern bool PARC_PL2_;// true 1 - автоматическая, false 0 - ручная
+//extern bool ATTAC_PL1_; //ввод координат для атаки
+extern bool ATTAC_PL2_; //true - автоматическая, false - ручной
 
 void Grafic_Gameplay::GrShowOpenPoints(point_ship& shipPoint, COORD BPoint)
 {
@@ -157,9 +162,13 @@ void ClosedShowShip(Player* player)
 
 void AutoAttac()
 {
+	srand(time(NULL));
+	X_ = std::rand() % 10 + 1;
+	Y_ = std::rand() % 10 + 1;
 }
 
-bool Set_X_Coord(int num) {
+bool Set_X_Coord(std::string ch) {
+	int num = atoi(ch.c_str());
 	switch (num)
 	{
 	case 1: X_ = 1; return true; break;
@@ -176,8 +185,8 @@ bool Set_X_Coord(int num) {
 		break;
 	}
 }
-bool Set_Y_Coord(char ch) {
-	char ch1 = ch;
+bool Set_Y_Coord(std::string ch) {
+	char ch1 = ch[0];
 	switch (ch1)
 	{
 	case 'A':case 'a': Y_ = 1; return true; break;
@@ -196,35 +205,47 @@ bool Set_Y_Coord(char ch) {
 }
 
 bool foo() {
-	char buf2;
-	int buf1;
+	std::string buf1;
+	std::string buf2;
 	try
 	{
 		DataInput::gotoxy(5, 22); std::cout << "Введите координату удара ";
 		DataInput::gotoxy(30, 22); std::cout << " X:";
 		std::cin >> buf1;
-		DataInput::gotoxy(35, 22); std::cout << " Y:";
-		std::cin >> buf2;
+		if (buf1.length() > 2)
+			throw 1;
+		else {
+			std::cin.clear();
+			DataInput::gotoxy(35, 22); std::cout << " Y:";
+			std::cin >> buf2;
+			if (buf2.length() > 1)
+				throw 1;
+			std::cin.clear();
+		}
+	}
+	catch (...)
+	{
+		DataInput::gotoxy(5, 22); std::cout << "                                                     ";
+		DataInput::gotoxy(30, 25); std::cout << "Error";
+		DataInput::gotoxy(30, 25); std::cout << "        ";
+		DataInput::gotoxy(5, 22); std::cout << "                                                     ";
+		foo();
 
 	}
-	catch (const std::exception&)
-	{
-		DataInput::gotoxy(30, 25); std::cout << "errar";
-	}
-	
-	if (Set_X_Coord(buf1) == true && Set_Y_Coord(buf2) == true)
+	bool check_X = Set_X_Coord(buf1);
+	bool check_Y = Set_Y_Coord(buf2);
+	if (check_X == true && check_Y == true)
 		return true;
-	else {
-		DataInput::gotoxy(30, 22); std::cout << "                   ";
-		return foo();
-	}
+	else
+		foo();
 }
 
 void PlayerAttac(Player* player)
 {
 	DataInput::gotoxy(3, 21); std::cout << player->Get_Name();
-	if(foo()==true)
-		DataInput::gotoxy(30, 25); std::cout << " ok";
+	bool check_foo = foo();
+	if(check_foo ==true)
+		DataInput::gotoxy(50, 22); std::cout << "-OK";
 	
 	
 
@@ -251,6 +272,21 @@ void Attac(Player* player)
 		PlayerAttac(player);
 	else                      // автоматический ввод
 		AutoAttac();
+}
+
+void Logic_Gameplay:: SetDataLog(Player* player) {
+	point_ship tmp;
+	tmp.X = X_;
+	tmp.Y = Y_;
+	if (player->Get_Name() == "Player 1")
+		Log_attac_pl1.push_back(tmp);
+	else
+		Log_attac_pl2.push_back(tmp);
+}
+
+void SetCoordAtac(Player* player)
+{
+	
 
 }
 
@@ -271,13 +307,15 @@ void Logic_Gameplay::Play_Game()
 			Attac(PL1);
 		else
 			Attac(PL2);
-		/*if (PL1->Base_Point.X == 42)// атака со второго поля не ведется, если только не комп
-			Attac(PL1); //переписать
-		else
-			Attac(PL2);*/
+		if(ATTAC_PL2_==true)
+			Attac(PL2);
+		
+			
 
 
-		//SwapBP(PL1, PL2);
+		SwapBP(PL1, PL2);
 
 	}
 }
+
+

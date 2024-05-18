@@ -8,6 +8,7 @@ struct point_ship {
 	int X;
 	int Y;
 	bool Crash = false;
+	bool operator==(point_ship Lobj);
 };
 
 class Ship {

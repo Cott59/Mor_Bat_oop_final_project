@@ -38,3 +38,11 @@ void Ship::SetData()
 	vc.begin()->X = X_;
 	vc.begin()->Y = Y_;
 }
+
+bool point_ship::operator==(point_ship Lobj)
+{
+	if((this->X==Lobj.X)&&(this->Y==Lobj.Y))
+		return true;
+	else
+		return false;
+}
